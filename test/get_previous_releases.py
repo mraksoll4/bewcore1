@@ -118,17 +118,17 @@ def download_binary(tag, args) -> int:
             return 0
         shutil.rmtree(tag)
     Path(tag).mkdir()
-    bin_path = 'bin/bitcoin-core-{}'.format(tag[1:])
+    bin_path = 'bin/bewcore-{}'.format(tag[1:])
     match = re.compile('v(.*)(rc[0-9]+)$').search(tag)
     if match:
-        bin_path = 'bin/bitcoin-core-{}/test.{}'.format(
+        bin_path = 'bin/bewcore-{}/test.{}'.format(
             match.group(1), match.group(2))
     platform = args.platform
     if tag < "v23" and platform in ["x86_64-apple-darwin", "arm64-apple-darwin"]:
         platform = "osx64"
-    tarball = 'bitcoin-{tag}-{platform}.tar.gz'.format(
+    tarball = 'bewcore-{tag}-{platform}.tar.gz'.format(
         tag=tag[1:], platform=platform)
-    tarballUrl = 'https://bitcoincore.org/{bin_path}/{tarball}'.format(
+    tarballUrl = 'https://bewcore.org/{bin_path}/{tarball}'.format(
         bin_path=bin_path, tarball=tarball)
 
     print('Fetching: {tarballUrl}'.format(tarballUrl=tarballUrl))
@@ -203,7 +203,7 @@ def download_binary(tag, args) -> int:
 
 
 def build_release(tag, args) -> int:
-    githubUrl = "https://github.com/bewcore-project/bewcore"
+    githubUrl = "https://github.com/mraksoll4/bewcore"
     if args.remove_dir:
         if Path(tag).is_dir():
             shutil.rmtree(tag)

@@ -48,7 +48,7 @@ from pathlib import PurePath, Path
 # The primary host; this will fail if we can't retrieve files from here.
 HOST1 = "https://bitcoincore.org"
 HOST2 = "https://bitcoin.org"
-VERSIONPREFIX = "bitcoin-core-"
+VERSIONPREFIX = "bewcore-"
 SUMS_FILENAME = 'SHA256SUMS'
 SIGNATUREFILENAME = f"{SUMS_FILENAME}.asc"
 

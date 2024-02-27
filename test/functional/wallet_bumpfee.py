@@ -511,7 +511,7 @@ def test_dust_to_fee(self, rbf_node, dest_address):
     self.log.info('Test that bumped output that is dust is dropped to fee')
     rbfid = spend_one_input(rbf_node, dest_address)
     fulltx = rbf_node.getrawtransaction(rbfid, 1)
-    # The DER formatting used by Bitcoin to serialize ECDSA signatures means that signatures can have a
+    # The DER formatting used by Bewcore to serialize ECDSA signatures means that signatures can have a
     # variable size of 70-72 bytes (or possibly even less), with most being 71 or 72 bytes. The signature
     # in the witness is divided by 4 for the vsize, so this variance can take the weight across a 4-byte
     # boundary. Thus expected transaction size (p2wpkh, 1 input, 2 outputs) is 140-141 vbytes, usually 141.

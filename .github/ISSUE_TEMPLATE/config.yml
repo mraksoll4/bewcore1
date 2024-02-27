@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Bitcoin Core Security Policy
-    url: https://github.com/bewcore-project/bewcore/blob/master/SECURITY.md
+  - name: BewCore Security Policy
+    url: https://github.com/mraksoll4/bewcore/blob/master/SECURITY.md
     about: View security policy
-  - name: Bitcoin Core Developers
-    url: https://bitcoincore.org
-    about: Bitcoin Core homepage
+  - name: BewCore Developers
+    url: https://bewcore.org
+    about: BewCore homepage

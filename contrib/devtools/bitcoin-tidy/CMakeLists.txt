@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(bitcoin-tidy VERSION 1.0.0 DESCRIPTION "clang-tidy checks for Bitcoin Core")
+project(bitcoin-tidy VERSION 1.0.0 DESCRIPTION "clang-tidy checks for BewCore")
 
 include(GNUInstallDirs)
 
@@ -40,10 +40,10 @@ else()
 endif()
 
 if(CMAKE_VERSION VERSION_LESS 3.27)
-    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=${CMAKE_BINARY_DIR}/${CMAKE_SHARED_MODULE_PREFIX}bitcoin-tidy${CMAKE_SHARED_MODULE_SUFFIX}" "-checks=-*,bitcoin-*")
+    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=${CMAKE_BINARY_DIR}/${CMAKE_SHARED_MODULE_PREFIX}bewcore-tidy${CMAKE_SHARED_MODULE_SUFFIX}" "-checks=-*,bewcore-*")
 else()
     # CLANG_TIDY_COMMAND supports generator expressions as of 3.27
-    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=$<TARGET_FILE:bitcoin-tidy>" "-checks=-*,bitcoin-*")
+    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=$<TARGET_FILE:bewcore-tidy>" "-checks=-*,bewcore-*")
 endif()
 
 # Create a dummy library that runs clang-tidy tests as a side-effect of building
