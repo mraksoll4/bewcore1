@@ -40,6 +40,7 @@ class SignMessagesWithPrivTest(BitcoinTestFramework):
 
         self.log.info('test that verifying with P2PKH address succeeds')
         addresses = self.addresses_from_privkey(priv_key)
+        print(addresses)
         assert_equal(addresses[0], 'mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB')
         assert self.nodes[0].verifymessage(addresses[0], signature, message)
 
