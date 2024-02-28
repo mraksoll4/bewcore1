@@ -67,7 +67,7 @@ class TestNode():
     To make things easier for the test writer, any unrecognised messages will
     be dispatched to the RPC connection."""
 
-    def __init__(self, i, datadir_path, *, chain, rpchost, timewait, timeout_factor, bitcoind, bitcoin_cli, coverage_dir, cwd, extra_conf=None, extra_args=None, use_cli=False, start_perf=False, use_valgrind=False, version=None, descriptors=False):
+    def __init__(self, i, datadir_path, *, chain, rpchost, timewait, timeout_factor, bewcored, bewcore_cli, coverage_dir, cwd, extra_conf=None, extra_args=None, use_cli=False, start_perf=False, use_valgrind=False, version=None, descriptors=False):
         """
         Kwargs:
             start_perf (bool): If True, begin profiling the node with `perf` as soon as
@@ -83,7 +83,7 @@ class TestNode():
         self.chain = chain
         self.rpchost = rpchost
         self.rpc_timeout = timewait
-        self.binary = bitcoind
+        self.binary = bewcored
         self.coverage_dir = coverage_dir
         self.cwd = cwd
         self.descriptors = descriptors
@@ -126,7 +126,7 @@ class TestNode():
         if self.version_is_at_least(239000):
             self.args.append("-loglevel=trace")
 
-        self.cli = TestNodeCLI(bitcoin_cli, self.datadir_path)
+        self.cli = TestNodeCLI(bewcore_cli, self.datadir_path)
         self.use_cli = use_cli
         self.start_perf = start_perf
 
@@ -756,7 +756,7 @@ class TestNodeCLI():
         self.binary = binary
         self.datadir = datadir
         self.input = None
-        self.log = logging.getLogger('TestFramework.bitcoincli')
+        self.log = logging.getLogger('TestFramework.bewcorecli')
 
     def __call__(self, *options, input=None):
         # TestNodeCLI is callable with bewcore-cli command-line options

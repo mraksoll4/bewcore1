@@ -46,7 +46,7 @@ TEST_EXIT_PASSED = 0
 TEST_EXIT_FAILED = 1
 TEST_EXIT_SKIPPED = 77
 
-TMPDIR_PREFIX = "bitcoin_func_test_"
+TMPDIR_PREFIX = "bewcore_func_test_"
 
 
 class SkipTest(Exception):
@@ -516,8 +516,8 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                 rpchost=rpchost,
                 timewait=self.rpc_timeout,
                 timeout_factor=self.options.timeout_factor,
-                bitcoind=binary[i],
-                bitcoin_cli=binary_cli[i],
+                bewcored=binary[i],
+                bewcore_cli=binary_cli[i],
                 version=versions[i],
                 coverage_dir=self.options.coveragedir,
                 cwd=self.options.tmpdir,
@@ -803,8 +803,8 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                     rpchost=None,
                     timewait=self.rpc_timeout,
                     timeout_factor=self.options.timeout_factor,
-                    bitcoind=self.options.bewcored,
-                    bitcoin_cli=self.options.bewcorecli,
+                    bewcored=self.options.bewcored,
+                    bewcore_cli=self.options.bewcorecli,
                     coverage_dir=None,
                     cwd=self.options.tmpdir,
                     descriptors=self.options.descriptors,
