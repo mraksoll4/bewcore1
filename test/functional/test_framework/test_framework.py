@@ -497,9 +497,9 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
         if versions is None:
             versions = [None] * num_nodes
         if binary is None:
-            binary = [get_bin_from_version(v, 'bewcored', self.options.bitcoind) for v in versions]
+            binary = [get_bin_from_version(v, 'bewcored', self.options.bewcored) for v in versions]
         if binary_cli is None:
-            binary_cli = [get_bin_from_version(v, 'bewcore-cli', self.options.bitcoincli) for v in versions]
+            binary_cli = [get_bin_from_version(v, 'bewcore-cli', self.options.bewcorecli) for v in versions]
         assert_equal(len(extra_confs), num_nodes)
         assert_equal(len(extra_args), num_nodes)
         assert_equal(len(versions), num_nodes)
@@ -803,8 +803,8 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                     rpchost=None,
                     timewait=self.rpc_timeout,
                     timeout_factor=self.options.timeout_factor,
-                    bitcoind=self.options.bitcoind,
-                    bitcoin_cli=self.options.bitcoincli,
+                    bitcoind=self.options.bewcored,
+                    bitcoin_cli=self.options.bewcorecli,
                     coverage_dir=None,
                     cwd=self.options.tmpdir,
                     descriptors=self.options.descriptors,
