@@ -533,7 +533,7 @@ def main():
 def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=False, args=None, combined_logs_len=0, failfast=False, use_term_control):
     args = args or []
 
-    # Warn if bitcoind is already running
+    # Warn if bewcored is already running
     try:
         # pgrep exits with code zero when one or more matching processes found
         if subprocess.run(["pgrep", "-x", "bewcored"], stdout=subprocess.DEVNULL).returncode == 0:
