@@ -1662,9 +1662,9 @@ BOOST_AUTO_TEST_CASE(message_verify)
 
     BOOST_CHECK_EQUAL(
         MessageVerify(
-            "11canuhp9X2NocwCq7xNrQYTmUgZAnLK3",
-            "111",
-            "Trust me"),
+            "15CRxFdyRpGZLW9w8HnHvVduizdL5jKNbs",
+            "H851IVQU1uINnK7uLI6ugxXcMJQwpCaAivGgbUa0YeGnbG987tWA3sRQRXU8U9PDUMzbY26pMBkKhmuv6ZIQz/Y=",
+            "Trust no one"),
         MessageVerificationResult::OK);
 }
 
