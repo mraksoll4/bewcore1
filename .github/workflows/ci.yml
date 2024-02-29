@@ -76,7 +76,7 @@ jobs:
     runs-on: macos-13  # Use M1 once available https://github.com/github/roadmap/issues/528
 
     # No need to run on the read-only mirror, unless it is a PR.
-    if: github.repository != 'bewcore-project/gui' || github.event_name == 'pull_request'
+    if: github.repository != 'mraksoll4/gui' || github.event_name == 'pull_request'
 
     timeout-minutes: 120
 
@@ -125,7 +125,7 @@ jobs:
     runs-on: windows-2022
 
     # No need to run on the read-only mirror, unless it is a PR.
-    if: github.repository != 'bewcore-project/gui' || github.event_name == 'pull_request'
+    if: github.repository != 'mraksoll4/gui' || github.event_name == 'pull_request'
 
     env:
       CCACHE_MAXSIZE: '200M'
