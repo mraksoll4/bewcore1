@@ -443,7 +443,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
 
-    BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN), 40);
+    BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN), 14);
 
     // Test: Make sure key actually randomizes bucket placement. A fail on
     //  this test could be a security issue.
@@ -571,7 +571,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket)
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
 
-    BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, ngm_asmap), 236);
+    BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, ngm_asmap), 160);
 
     // Test: Make sure key actually randomizes bucket placement. A fail on
     //  this test could be a security issue.
