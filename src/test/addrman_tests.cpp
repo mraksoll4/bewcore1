@@ -433,7 +433,7 @@ BOOST_AUTO_TEST_CASE(addrman_getaddr)
 BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 {
     CAddress addr1 = CAddress(ResolveService("250.1.1.1", 8333), NODE_NONE);
-    CAddress addr2 = CAddress(ResolveService("250.1.1.1", 9999), NODE_NONE);
+    CAddress addr2 = CAddress(ResolveService("250.1.1.1", 9998), NODE_NONE);
 
     CNetAddr source1 = ResolveIP("250.1.1.1");
 
