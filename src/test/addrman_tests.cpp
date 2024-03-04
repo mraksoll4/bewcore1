@@ -439,7 +439,6 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 
 
     AddrInfo info1 = AddrInfo(addr1, source1);
-    BOOST_TEST_MESSAGE("AddrInfo " << AddrInfo);
 	
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
@@ -481,6 +480,9 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     // Test: IP addresses in the different /16 prefix should map to more than
     // 8 buckets with legacy grouping
     BOOST_CHECK_EQUAL(buckets.size(), 160U);
+	
+	BOOST_TEST_MESSAGE("info1.GetKey(): " << std::string(info1.GetKey().begin(), info1.GetKey().end()));
+    BOOST_TEST_MESSAGE("info2.GetKey(): " << std::string(info2.GetKey().begin(), info2.GetKey().end()));
 }
 
 BOOST_AUTO_TEST_CASE(caddrinfo_get_new_bucket_legacy)
