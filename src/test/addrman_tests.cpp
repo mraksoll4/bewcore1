@@ -439,7 +439,8 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 
 
     AddrInfo info1 = AddrInfo(addr1, source1);
-
+    BOOST_TEST_MESSAGE("AddrInfo " << AddrInfo);
+	
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
 
