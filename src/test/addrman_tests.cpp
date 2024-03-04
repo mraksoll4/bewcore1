@@ -456,8 +456,8 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     // Test: Two addresses with same IP but different ports can map to
     //  different buckets because they have different keys.
     AddrInfo info2 = AddrInfo(addr2, source1);
-    BOOST_TEST_MESSAGE("info2: " << info1.GetKey());
-	BOOST_TEST_MESSAGE("info2: " << info2.GetKey());
+    BOOST_TEST_MESSAGE("info2: " << info1);
+	BOOST_TEST_MESSAGE("info2: " << info2);
 	
     BOOST_CHECK(info1.GetKey() != info2.GetKey());
     BOOST_CHECK(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN) != info2.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
