@@ -443,9 +443,6 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
 
-    BOOST_TEST_MESSAGE("nKey1: " << nKey1);
-    BOOST_TEST_MESSAGE("nKey2: " << nKey2);
-
     BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN), 40);
 	
 
@@ -459,9 +456,6 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 	
     BOOST_CHECK(info1.GetKey() != info2.GetKey());
     BOOST_CHECK(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN) != info2.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
-
-    BOOST_TEST_MESSAGE("info1.GetKey(): " << info1.GetKey());
-    BOOST_TEST_MESSAGE("info2.GetKey(): " << info2.GetKey());
 
     std::set<int> buckets;
     for (int i = 0; i < 255; i++) {
@@ -486,6 +480,11 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     // Test: IP addresses in the different /16 prefix should map to more than
     // 8 buckets with legacy grouping
     BOOST_CHECK_EQUAL(buckets.size(), 160U);
+	
+	BOOST_TEST_MESSAGE("nKey1: " << nKey1);
+    BOOST_TEST_MESSAGE("nKey2: " << nKey2);
+    BOOST_TEST_MESSAGE("info1.GetKey(): " << info1.GetKey());
+    BOOST_TEST_MESSAGE("info2.GetKey(): " << info2.GetKey());
 }
 
 BOOST_AUTO_TEST_CASE(caddrinfo_get_new_bucket_legacy)
