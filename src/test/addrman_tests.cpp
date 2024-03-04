@@ -442,7 +442,8 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 	
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
-
+    
+    BOOST_TEST_MESSAGE("info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN): " << info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
     BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN), 40);
 	
 
@@ -454,8 +455,6 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     //  different buckets because they have different keys.
     AddrInfo info2 = AddrInfo(addr2, source1);
 	
-	BOOST_TEST_MESSAGE("info1.GetKey(): " << std::string(info1.GetKey().begin(), info1.GetKey().end()));
-    BOOST_TEST_MESSAGE("info2.GetKey(): " << std::string(info2.GetKey().begin(), info2.GetKey().end()));
     BOOST_CHECK(info1.GetKey() != info2.GetKey());
     BOOST_CHECK(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN) != info2.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
 
