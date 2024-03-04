@@ -162,15 +162,15 @@ BOOST_AUTO_TEST_CASE(addrman_select)
     BOOST_CHECK(addrman->Select(/*new_only=*/true).first == addr2);
 
     // Add two more addresses to the new table
-    CService addr3 = ResolveService("250.3.2.2", 43669);
-    CService addr4 = ResolveService("250.3.3.3", 43669);
+    CService addr3 = ResolveService("250.3.2.2", 9999);
+    CService addr4 = ResolveService("250.3.3.3", 9999);
 
     BOOST_CHECK(addrman->Add({CAddress(addr3, NODE_NONE)}, addr2));
     BOOST_CHECK(addrman->Add({CAddress(addr4, NODE_NONE)}, ResolveService("250.4.1.1", 42003)));
 
     // Add three addresses to tried table.
     CService addr5 = ResolveService("250.4.4.4", 42003);
-    CService addr6 = ResolveService("250.4.5.5", 41447);
+    CService addr6 = ResolveService("250.4.5.5", 7777);
     CService addr7 = ResolveService("250.4.6.6", 42003);
 
     BOOST_CHECK(addrman->Add({CAddress(addr5, NODE_NONE)}, addr3));
@@ -382,7 +382,7 @@ BOOST_AUTO_TEST_CASE(addrman_getaddr)
 
     CAddress addr1 = CAddress(ResolveService("250.250.2.1", 42003), NODE_NONE);
     addr1.nTime = Now<NodeSeconds>(); // Set time so isTerrible = false
-    CAddress addr2 = CAddress(ResolveService("250.251.2.2", 43669), NODE_NONE);
+    CAddress addr2 = CAddress(ResolveService("250.251.2.2", 9999), NODE_NONE);
     addr2.nTime = Now<NodeSeconds>();
     CAddress addr3 = CAddress(ResolveService("251.252.2.3", 42003), NODE_NONE);
     addr3.nTime = Now<NodeSeconds>();
@@ -432,20 +432,18 @@ BOOST_AUTO_TEST_CASE(addrman_getaddr)
 
 BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 {
-    CAddress addr1 = CAddress(ResolveService("250.1.1.1", 8334), NODE_NONE);
+    CAddress addr1 = CAddress(ResolveService("250.1.1.1", 42003), NODE_NONE);
     CAddress addr2 = CAddress(ResolveService("250.1.1.1", 9999), NODE_NONE);
 
     CNetAddr source1 = ResolveIP("250.1.1.1");
 
 
     AddrInfo info1 = AddrInfo(addr1, source1);
-	
+
     uint256 nKey1 = (HashWriter{} << 1).GetHash();
     uint256 nKey2 = (HashWriter{} << 2).GetHash();
-    
-    BOOST_TEST_MESSAGE("info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN): " << info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
+
     BOOST_CHECK_EQUAL(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN), 40);
-	
 
     // Test: Make sure key actually randomizes bucket placement. A fail on
     //  this test could be a security issue.
@@ -454,7 +452,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
     // Test: Two addresses with same IP but different ports can map to
     //  different buckets because they have different keys.
     AddrInfo info2 = AddrInfo(addr2, source1);
-	
+
     BOOST_CHECK(info1.GetKey() != info2.GetKey());
     BOOST_CHECK(info1.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN) != info2.GetTriedBucket(nKey1, EMPTY_NETGROUPMAN));
 
@@ -486,7 +484,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket_legacy)
 BOOST_AUTO_TEST_CASE(caddrinfo_get_new_bucket_legacy)
 {
     CAddress addr1 = CAddress(ResolveService("250.1.2.1", 42003), NODE_NONE);
-    CAddress addr2 = CAddress(ResolveService("250.1.2.1", 43669), NODE_NONE);
+    CAddress addr2 = CAddress(ResolveService("250.1.2.1", 9999), NODE_NONE);
 
     CNetAddr source1 = ResolveIP("250.1.2.1");
 
@@ -563,7 +561,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket)
     NetGroupManager ngm_asmap{asmap};
 
     CAddress addr1 = CAddress(ResolveService("250.1.1.1", 42003), NODE_NONE);
-    CAddress addr2 = CAddress(ResolveService("250.1.1.1", 43669), NODE_NONE);
+    CAddress addr2 = CAddress(ResolveService("250.1.1.1", 9999), NODE_NONE);
 
     CNetAddr source1 = ResolveIP("250.1.1.1");
 
@@ -617,7 +615,7 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_new_bucket)
     NetGroupManager ngm_asmap{asmap};
 
     CAddress addr1 = CAddress(ResolveService("250.1.2.1", 42003), NODE_NONE);
-    CAddress addr2 = CAddress(ResolveService("250.1.2.1", 43669), NODE_NONE);
+    CAddress addr2 = CAddress(ResolveService("250.1.2.1", 9999), NODE_NONE);
 
     CNetAddr source1 = ResolveIP("250.1.2.1");
 
@@ -957,13 +955,13 @@ BOOST_AUTO_TEST_CASE(load_addrman)
     std::optional<CService> addr1, addr2, addr3, addr4;
     addr1 = Lookup("250.7.1.1", 42003, false);
     BOOST_CHECK(addr1.has_value());
-    addr2 = Lookup("250.7.2.2", 43669, false);
+    addr2 = Lookup("250.7.2.2", 9999, false);
     BOOST_CHECK(addr2.has_value());
-    addr3 = Lookup("250.7.3.3", 43669, false);
+    addr3 = Lookup("250.7.3.3", 9999, false);
     BOOST_CHECK(addr3.has_value());
-    addr3 = Lookup("250.7.3.3"s, 43669, false);
+    addr3 = Lookup("250.7.3.3"s, 9999, false);
     BOOST_CHECK(addr3.has_value());
-    addr4 = Lookup("250.7.3.3\0example.com"s, 43669, false);
+    addr4 = Lookup("250.7.3.3\0example.com"s, 9999, false);
     BOOST_CHECK(!addr4.has_value());
 
     // Add three addresses to new table.
@@ -1015,7 +1013,7 @@ static auto MakeCorruptPeersDat()
     int nUBuckets = ADDRMAN_NEW_BUCKET_COUNT ^ (1 << 30);
     s << nUBuckets;
 
-    const std::optional<CService> serv{Lookup("252.1.1.1", 41447, false)};
+    const std::optional<CService> serv{Lookup("252.1.1.1", 7777, false)};
     BOOST_REQUIRE(serv.has_value());
     CAddress addr = CAddress(serv.value(), NODE_NONE);
     std::optional<CNetAddr> resolved{LookupHost("252.2.2.2", false)};
