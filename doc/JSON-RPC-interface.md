@@ -32,11 +32,11 @@ requests when multiple wallets are in use.
 ### Examples
 
 ```sh
-# Get block count from the / endpoint when rpcuser=alice and rpcport=38332
-$ curl --user alice --data-binary '{"jsonrpc": "1.0", "id": "0", "method": "getblockcount", "params": []}' -H 'content-type: text/plain;' localhost:38332/
+# Get block count from the / endpoint when rpcuser=alice and rpcport=42302
+$ curl --user alice --data-binary '{"jsonrpc": "1.0", "id": "0", "method": "getblockcount", "params": []}' -H 'content-type: text/plain;' localhost:42302/
 
-# Get balance from the /wallet/walletname endpoint when rpcuser=alice, rpcport=38332 and rpcwallet=desc-wallet
-$ curl --user alice --data-binary '{"jsonrpc": "1.0", "id": "0", "method": "getbalance", "params": []}' -H 'content-type: text/plain;' localhost:38332/wallet/desc-wallet
+# Get balance from the /wallet/walletname endpoint when rpcuser=alice, rpcport=42302 and rpcwallet=desc-wallet
+$ curl --user alice --data-binary '{"jsonrpc": "1.0", "id": "0", "method": "getbalance", "params": []}' -H 'content-type: text/plain;' localhost:42302/wallet/desc-wallet
 
 ```
 

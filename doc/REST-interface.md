@@ -3,8 +3,8 @@ Unauthenticated REST Interface
 
 The REST API can be enabled with the `-rest` option.
 
-The interface runs on the same port as the JSON-RPC interface, by default port 42002 for mainnet, port 18332 for testnet,
-port 38332 for signet, and port 18443 for regtest.
+The interface runs on the same port as the JSON-RPC interface, by default port 42002 for mainnet, port 42202 for testnet,
+port 42302 for signet, and port 42443 for regtest.
 
 REST Interface consistency guarantees
 -------------------------------------
@@ -106,7 +106,7 @@ input and output serialization (relevant for `bin` and `hex` output formats).
 
 Example:
 ```
-$ curl localhost:18332/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff7627ff72e5e8b0f71210f92ea7a4000c5d75-0.json 2>/dev/null | json_pp
+$ curl localhost:42202/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff7627ff72e5e8b0f71210f92ea7a4000c5d75-0.json 2>/dev/null | json_pp
 {
    "chainHeight" : 325347,
    "chaintipHash" : "00000000fb01a7f3745a717f8caebee056c484e6e0bfe4a9591c235bb70506fb",
