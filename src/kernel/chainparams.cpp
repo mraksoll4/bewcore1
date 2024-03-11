@@ -78,7 +78,7 @@ public:
         consensus.script_flag_exceptions.emplace( // BIP16 exception
             uint256S("0x0010b1ac15d58aa632bbdd90c045fd596177a280619d9f4c465e4b0afe571103"), SCRIPT_VERIFY_NONE);
         consensus.script_flag_exceptions.emplace( // Taproot exception
-            uint256S("0x0010b1ac15d58aa632bbdd90c045fd596177a280619d9f4c465e4b0afe571103"), SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_WITNESS);
+            uint256S("0x00"), SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_WITNESS);
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256{};
         consensus.BIP65Height = 1;
@@ -103,7 +103,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::ALWAYS_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 1000; // No activation delay
 
         consensus.nMinimumChainWork = uint256S("0x00");
         consensus.defaultAssumeValid = uint256S("0x00");
