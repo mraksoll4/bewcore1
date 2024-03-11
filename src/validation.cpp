@@ -3928,13 +3928,7 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
             return true;
         }
 
-        // For performance reason, skip CheckBlockHeader, during download headers
-		
-        /*
-		if (!CheckBlockHeader(block, state, GetConsensus())) {
-		*/
-
-        if (!IsInitialBlockDownload() && !CheckBlockHeader(block, state, GetConsensus())) {
+        if (!CheckBlockHeader(block, state, GetConsensus())) {
             LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
             return false;
         }
