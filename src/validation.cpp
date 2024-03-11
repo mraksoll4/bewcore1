@@ -3934,7 +3934,7 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
 		if (!CheckBlockHeader(block, state, GetConsensus())) {
 		*/
 
-        if (!active_chainstate.m_chainman.IsInitialBlockDownload() && !CheckBlockHeader(block, state, GetConsensus())) {
+        if (!IsInitialBlockDownload() && !CheckBlockHeader(block, state, GetConsensus())) {
             LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
             return false;
         }
