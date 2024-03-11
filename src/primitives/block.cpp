@@ -14,6 +14,7 @@
 #include <streams.h>
 #include <version.h>
 #include <stdlib.h> // exit()
+#include <sync.h>
 
 uint256 CBlockHeader::GetHash() const
 {
