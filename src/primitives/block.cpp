@@ -8,9 +8,36 @@
 #include <hash.h>
 #include <tinyformat.h>
 
+/* yespower algo */
+
+#include <crypto/yespower-1.0.1/yespower.h>
+#include <streams.h>
+#include <version.h>
+#include <stdlib.h> // exit()
+
 uint256 CBlockHeader::GetHash() const
 {
     return (CHashWriter{PROTOCOL_VERSION} << *this).GetHash();
+}
+
+/* Yespower */
+uint256 CBlockHeader::GetPoWHash() const
+{
+    static const yespower_params_t yespower_1_0_bewcore = {
+        .version = YESPOWER_1_0,
+        .N = 2048,
+        .r = 32,
+        .pers = NULL,
+        .perslen = 0
+    };
+    uint256 hash;
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << *this;
+    if (yespower_tls((const uint8_t *)&ss[0], ss.size(), &yespower_1_0_bewcore, (yespower_binary_t *)&hash)) {
+        tfm::format(std::cerr, "Error: CBlockHeaderUncached::GetPoWHash(): failed to compute PoW hash (out of memory?)\n");
+        exit(1);
+    }
+    return hash;
 }
 
 std::string CBlock::ToString() const
