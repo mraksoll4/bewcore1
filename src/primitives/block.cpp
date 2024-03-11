@@ -22,7 +22,7 @@ uint256 CBlockHeader::GetHash() const
 }
 
 /* Yespower */
-uint256 CBlockHeaderUncached::GetPoWHash() const
+uint256 CBlockHeader::GetPoWHash() const
 {
     static const yespower_params_t yespower_1_0_bewcore = {
         .version = YESPOWER_1_0,
@@ -32,18 +32,16 @@ uint256 CBlockHeaderUncached::GetPoWHash() const
         .perslen = 0
     };
     uint256 hash;
-    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+
+    // Используйте тот же способ сериализации, как и в обновленном GetHash()
+    CHashWriter ss(SER_NETWORK, PROTOCOL_VERSION);
     ss << *this;
+
     if (yespower_tls((const uint8_t *)&ss[0], ss.size(), &yespower_1_0_bewcore, (yespower_binary_t *)&hash)) {
-        tfm::format(std::cerr, "Error: CBlockHeaderUncached::GetPoWHash(): failed to compute PoW hash (out of memory?)\n");
+        tfm::format(std::cerr, "Error: CBlockHeader::GetPoWHash(): failed to compute PoW hash (out of memory?)\n");
         exit(1);
     }
     return hash;
-}
-
-uint256 CBlockHeader::GetPoWHash() const
-{
-    return static_cast<const CBlockHeaderUncached*>(this)->GetPoWHash();
 }
 
 std::string CBlock::ToString() const
