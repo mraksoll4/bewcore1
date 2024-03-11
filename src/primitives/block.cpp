@@ -34,8 +34,8 @@ uint256 CBlockHeader::GetPoWHash() const
     uint256 hash;
 
     // Используйте тот же способ сериализации, как и в обновленном GetHash()
-    CHashWriter ss(SER_NETWORK, PROTOCOL_VERSION);
-    ss << *this;
+    CHashWriter ss(PROTOCOL_VERSION);
+    ss << *this.GetHash()
 
     if (yespower_tls((const uint8_t *)&ss[0], ss.size(), &yespower_1_0_bewcore, (yespower_binary_t *)&hash)) {
         tfm::format(std::cerr, "Error: CBlockHeader::GetPoWHash(): failed to compute PoW hash (out of memory?)\n");
