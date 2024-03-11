@@ -22,7 +22,7 @@ uint256 CBlockHeader::GetHash() const
 }
 
 /* Yespower */
-uint256 CBlockHeader::GetPoWHash() const
+uint256 CBlockHeaderUncached::GetPoWHash() const
 {
     static const yespower_params_t yespower_1_0_bewcore = {
         .version = YESPOWER_1_0,
@@ -39,6 +39,11 @@ uint256 CBlockHeader::GetPoWHash() const
         exit(1);
     }
     return hash;
+}
+
+uint256 CBlockHeader::GetPoWHash() const
+{
+    return static_cast<const CBlockHeaderUncached*>(this)->GetPoWHash();
 }
 
 std::string CBlock::ToString() const
