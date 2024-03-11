@@ -212,6 +212,12 @@ public:
     //! (memory only) Maximum nTime in the chain up to and including this block.
     unsigned int nTimeMax{0};
 
+    /* YespowerSugar */
+    void SetNullCacheInit()
+    {
+        cache_init = false;
+    }
+
     explicit CBlockIndex(const CBlockHeader& block)
         : nVersion{block.nVersion},
           hashMerkleRoot{block.hashMerkleRoot},
@@ -219,6 +225,11 @@ public:
           nBits{block.nBits},
           nNonce{block.nNonce}
     {
+        /* YespowerSugar */
+        SetNullCacheInit();
+        cache_init = block.cache_init;
+        cache_block_hash = block.cache_block_hash;
+        cache_PoW_hash = block.cache_PoW_hash;
     }
 
     FlatFilePos GetBlockPos() const EXCLUSIVE_LOCKS_REQUIRED(::cs_main)
@@ -253,6 +264,12 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+
+        /* YespowerSugar */
+        block.cache_init = cache_init;
+        block.cache_block_hash = cache_block_hash;
+        block.cache_PoW_hash = cache_PoW_hash;
+
         return block;
     }
 
@@ -260,6 +277,11 @@ public:
     {
         assert(phashBlock != nullptr);
         return *phashBlock;
+    }
+
+    uint256 GetBlockPoWHash() const
+    {
+        return GetBlockHeader().GetPoWHash();
     }
 
     /**
@@ -278,11 +300,6 @@ public:
     NodeSeconds Time() const
     {
         return NodeSeconds{std::chrono::seconds{nTime}};
-    }
-
-    uint256 GetBlockPoWHash() const
-    {
-        return GetBlockHeader().GetPoWHash();
     }
 
     int64_t GetBlockTime() const
