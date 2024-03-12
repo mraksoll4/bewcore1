@@ -120,7 +120,8 @@ public:
 
         genesis = CreateGenesisBlock(1710144000, 1104, 0x1f1fffff, 1, 10 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0010b1ac15d58aa632bbdd90c045fd596177a280619d9f4c465e4b0afe571103"));
+        assert(genesis.GetPoWHash() == uint256S("0x0010b1ac15d58aa632bbdd90c045fd596177a280619d9f4c465e4b0afe571103"));
+        assert(consensus.hashGenesisBlock == uint256S("0x1e04ead4f73c495fd7dfecdaba2c37f732f18b95b0593fa225df08f9a036a254"));
         assert(genesis.hashMerkleRoot == uint256S("0x7550350d94dc4c253de9e899f748143eae83d5d4a33938054b09fa02b797e004"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
@@ -222,6 +223,7 @@ public:
 
         genesis = CreateGenesisBlock(1710144000, 2643, 0x1f1fffff, 1, 10 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        assert(genesis.GetPoWHash() == uint256S("0x00090dc360b246c89b31f63824100deb26d728ae484b5f4835b3236f3bce5234"));
         assert(consensus.hashGenesisBlock == uint256S("0x00090dc360b246c89b31f63824100deb26d728ae484b5f4835b3236f3bce5234"));
         assert(genesis.hashMerkleRoot == uint256S("0x7550350d94dc4c253de9e899f748143eae83d5d4a33938054b09fa02b797e004"));
 
@@ -359,6 +361,7 @@ public:
 
         genesis = CreateGenesisBlock(1710144000, 6962, 0x1f1fffff, 1, 10 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        assert(genesis.GetPoWHash() == uint256S("0x001d8ac0ae834176b6d595c7451158ab961442809b1da20df3759aad667d9836"));
         assert(consensus.hashGenesisBlock == uint256S("0x001d8ac0ae834176b6d595c7451158ab961442809b1da20df3759aad667d9836"));
         assert(genesis.hashMerkleRoot == uint256S("0x7550350d94dc4c253de9e899f748143eae83d5d4a33938054b09fa02b797e004"));
 
@@ -467,6 +470,7 @@ public:
 
         genesis = CreateGenesisBlock(1710144000, 599, 0x1f1fffff, 1, 10 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        assert(genesis.GetPoWHash() == uint256S("0x0007f781d2d34c23df1494f1beb5c156b142353af28ae2c1241c25c7a2657d6b"));
         assert(consensus.hashGenesisBlock == uint256S("0x0007f781d2d34c23df1494f1beb5c156b142353af28ae2c1241c25c7a2657d6b"));
         assert(genesis.hashMerkleRoot == uint256S("0x7550350d94dc4c253de9e899f748143eae83d5d4a33938054b09fa02b797e004"));
 
