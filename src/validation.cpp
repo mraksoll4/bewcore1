@@ -3632,9 +3632,14 @@ void ChainstateManager::ReceivedBlockTransactions(const CBlock& block, CBlockInd
 
 static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
-    // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+    // Check POW's
+    bool powResult1 = fCheckPOW ? CheckProofOfWork(block.GetHash(), block.nBits, consensusParams) : true;
+    bool powResult2 = fCheckPOW ? CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams) : true;
+
+    // Сhecking if both POW's are valid
+    if (!powResult1 || !powResult2) {
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
+    }
 
     return true;
 }
@@ -3755,7 +3760,11 @@ std::vector<unsigned char> ChainstateManager::GenerateCoinbaseCommitment(CBlock&
 bool HasValidProofOfWork(const std::vector<CBlockHeader>& headers, const Consensus::Params& consensusParams)
 {
     return std::all_of(headers.cbegin(), headers.cend(),
-            [&](const auto& header) { return CheckProofOfWork(header.GetPoWHash(), header.nBits, consensusParams);});
+            [&](const auto& header) { 
+                bool check1 = CheckProofOfWork(header.GetHash(), header.nBits, consensusParams);
+                bool check2 = CheckProofOfWork(header.GetPoWHash(), header.nBits, consensusParams);
+                return check1 && check2;
+            });
 }
 
 arith_uint256 CalculateHeadersWork(const std::vector<CBlockHeader>& headers)

@@ -14,9 +14,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 {
 	
     assert(pindexLast != nullptr);
-	/*
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
-	
+	/*
     
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
@@ -134,6 +133,7 @@ unsigned int Lwma3CalculateNextWorkRequired(const CBlockIndex* pindexLast, const
     
    // New coins just "give away" first N blocks. It's better to guess
    // this value instead of using powLimit, but err on high side to not get stuck.
+    if (params.fPowAllowMinDifficultyBlocks) { return powLimit.GetCompact(); }
     if (height <= L) { return powLimit.GetCompact(); }
 
     arith_uint256 avgTarget, nextTarget;
