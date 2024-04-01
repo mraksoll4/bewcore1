@@ -55,6 +55,8 @@ public:
     uint256 GetHash() const;
 
     uint256 GetPoWHash() const;
+	
+	uint256 GetPoWHash2() const;
 
     NodeSeconds Time() const
     {

@@ -1040,8 +1040,8 @@ bool BlockManager::ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos) cons
     }
 
     // Check the header for both variants of Proof of Work
-    bool powResult1 = CheckProofOfWork(block.GetHash(), block.nBits, GetConsensus());
-    bool powResult2 = CheckProofOfWork(block.GetPoWHash(), block.nBits, GetConsensus());
+    bool powResult1 = CheckProofOfWork(block.GetPoWHash(), block.nBits, GetConsensus());
+    bool powResult2 = CheckProofOfWork(block.GetPoWHash2(), block.nBits, GetConsensus());
 
     if (!(powResult1 && powResult2)) {
         return error("ReadBlockFromDisk: Proof of Work is not valid for both variants for the block header at %s", pos.ToString());

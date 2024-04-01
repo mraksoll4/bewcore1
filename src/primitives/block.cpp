@@ -41,6 +41,13 @@ uint256 CBlockHeader::GetPoWHash() const
     return hash;
 }
 
+uint256 CBlockHeader::GetPoWHash2() const
+{
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << *this;
+    return CustomHash(ss);
+}
+
 std::string CBlock::ToString() const
 {
     std::stringstream s;
