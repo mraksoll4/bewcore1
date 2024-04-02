@@ -506,6 +506,35 @@ static RPCHelpMan getblockhash()
     };
 }
 
+static RPCHelpMan getblockhash2()
+{
+    return RPCHelpMan{"getblockhash2",
+                "\nReturns hash of block in best-block-chain at height provided.\n",
+                {
+                    {"height", RPCArg::Type::NUM, RPCArg::Optional::NO, "The height index"},
+                },
+                RPCResult{
+                    RPCResult::Type::STR_HEX, "", "The block hash"},
+                RPCExamples{
+                    HelpExampleCli("getblockhash2", "1000")
+            + HelpExampleRpc("getblockhash2", "1000")
+                },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+{
+    ChainstateManager& chainman = EnsureAnyChainman(request.context);
+    LOCK(cs_main);
+    const CChain& active_chain = chainman.ActiveChain();
+
+    int nHeight = request.params[0].getInt<int>();
+    if (nHeight < 0 || nHeight > active_chain.Height())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
+
+    const CBlockIndex* pblockindex = active_chain[nHeight];
+    return pblockindex->GetBlockPoWHash2().GetHex();
+},
+    };
+}
+
 static RPCHelpMan getblockheader()
 {
     return RPCHelpMan{"getblockheader",
@@ -1866,7 +1895,8 @@ static RPCHelpMan getblockstats()
 
                 // The Genesis block and the repeated BIP30 block coinbases don't change the UTXO
                 // set counts, so they have to be excluded from the statistics
-                if (pindex.nHeight == 0 || (IsBIP30Repeat(pindex) && tx->IsCoinBase())) continue;
+                //if (pindex.nHeight == 0 || (IsBIP30Repeat(pindex) && tx->IsCoinBase())) continue;
+				if (pindex.nHeight == 0) continue;
                 // Skip unspendable outputs since they are not included in the UTXO set
                 if (out.scriptPubKey.IsUnspendable()) continue;
 
@@ -2881,6 +2911,7 @@ void RegisterBlockchainRPCCommands(CRPCTable& t)
         {"blockchain", &getblock},
         {"blockchain", &getblockfrompeer},
         {"blockchain", &getblockhash},
+        {"blockchain", &getblockhash2},
         {"blockchain", &getblockheader},
         {"blockchain", &getchaintips},
         {"blockchain", &getdifficulty},
