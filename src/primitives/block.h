@@ -58,6 +58,8 @@ public:
 	
     uint256 GetPoWHash2() const;
 
+    uint256 GetArgon2idPoWHash() const;
+
     NodeSeconds Time() const
     {
         return NodeSeconds{std::chrono::seconds{nTime}};
