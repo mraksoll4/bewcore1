@@ -530,7 +530,7 @@ static RPCHelpMan getblockhash2()
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
 
     const CBlockIndex* pblockindex = active_chain[nHeight];
-    return pblockindex->GetBlockPoWHash2().GetHex();
+    return pblockindex->GetBlockArgon2idPoWHash().GetHex();
 },
     };
 }

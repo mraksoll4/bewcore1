@@ -3635,8 +3635,8 @@ void ChainstateManager::ReceivedBlockTransactions(const CBlock& block, CBlockInd
 static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // Check POW's
-    bool powResult1 = fCheckPOW ? CheckProofOfWork(block.GetPoWHash2(), block.nBits, consensusParams) : true;
-    bool powResult2 = fCheckPOW ? CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams) : true;
+    bool powResult1 = fCheckPOW ? CheckProofOfWork(block.GetArgon2idPoWHash(), block.nBits, consensusParams) : true;
+    bool powResult2 = fCheckPOW ? CheckProofOfWork(block.GetArgon2idPoWHash(), block.nBits, consensusParams) : true;
 
     // Сhecking if both POW's are valid
     if (!powResult1 || !powResult2) {
@@ -3763,8 +3763,8 @@ bool HasValidProofOfWork(const std::vector<CBlockHeader>& headers, const Consens
 {
     return std::all_of(headers.cbegin(), headers.cend(),
             [&](const auto& header) { 
-                bool check1 = CheckProofOfWork(header.GetPoWHash2(), header.nBits, consensusParams);
-                bool check2 = CheckProofOfWork(header.GetPoWHash(), header.nBits, consensusParams);
+                bool check1 = CheckProofOfWork(header.GetArgon2idPoWHash(), header.nBits, consensusParams);
+                bool check2 = CheckProofOfWork(header.GetArgon2idPoWHash(), header.nBits, consensusParams);
                 return check1 && check2;
             });
 }

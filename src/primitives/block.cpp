@@ -54,45 +54,39 @@ uint256 CBlockHeader::GetPoWHash2() const
     return CustomHash(ss);
 }
 
+
 // Функция для получения хэша с использованием Argon2id
-uint256 GetArgon2idHash(const void* input, size_t input_size) {
+int GetArgon2idHash(const void* in, size_t size, const void* out) {
     argon2_context context;
-    context.out = (uint8_t*)malloc(OUTPUT_BYTES); // Мы выделяем память для хранения хэша
-    context.outlen = OUTPUT_BYTES;
-    context.pwd = (uint8_t*)input;
-    context.pwdlen = input_size;
-    context.salt = (uint8_t*)input; // Можно использовать input как соль, но лучше использовать случайную соль
-    context.saltlen = input_size;
+    context.out = (uint8_t*)out;
+    context.outlen = (uint32_t)OUTPUT_BYTES;
+    context.pwd = (uint8_t*)in;
+    context.pwdlen = (uint32_t)size;
+    context.salt = (uint8_t*)in; //salt = input
+    context.saltlen = (uint32_t)size;
     context.secret = NULL;
     context.secretlen = 0;
     context.ad = NULL;
     context.adlen = 0;
     context.allocate_cbk = NULL;
     context.free_cbk = NULL;
-    context.flags = DEFAULT_ARGON2_FLAG;
-    context.m_cost = 500; // Примерная настройка параметров Argon2
-    context.lanes = 8;
-    context.threads = 1;
-    context.t_cost = 2;
+    context.flags = DEFAULT_ARGON2_FLAG; // = ARGON2_DEFAULT_FLAGS
+    // main configurable Argon2 hash parameters
+    context.m_cost = 500; // Memory in KiB (512KB)
+    context.lanes = 8;    // Degree of Parallelism
+    context.threads = 1;  // Threads
+    context.t_cost = 2;   // Iterations
 
-    int result = argon2_ctx(&context, Argon2_id); // Используем Argon2id здесь
-    if (result != ARGON2_OK) {
-        // Обработка ошибок, если необходимо
-    }
-
-    // Преобразуем полученный хэш в uint256 и возвращаем
-    uint256 hash;
-    memcpy(&hash, context.out, sizeof(hash));
-    free(context.out); // Освобождаем память, выделенную для хэша
-    return hash;
+    return argon2_ctx(&context, Argon2_id);
 }
 
 // Функция для получения хэша Argon2id из блока
 uint256 CBlockHeader::GetArgon2idPoWHash() const {
-    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
-    ss << *this;
-    return GetArgon2idHash((const uint8_t*)&ss[0], ss.size());
+    uint256 hashResult;
+    GetArgon2idHash((const uint8_t*)this, sizeof(*this), (uint8_t*)&hashResult);
+    return hashResult;
 }
+
 
 
 std::string CBlock::ToString() const

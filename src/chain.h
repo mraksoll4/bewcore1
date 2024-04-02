@@ -284,6 +284,11 @@ public:
         return GetBlockHeader().GetPoWHash2();
     }
 
+    uint256 GetBlockArgon2idPoWHash() const
+    {
+        return GetBlockHeader().GetArgon2idPoWHash();
+    }
+
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
