@@ -55,15 +55,15 @@ uint256 CBlockHeader::GetPoWHash2() const
 }
 
 
-// Функция для получения хэша с использованием Argon2id
-int GetArgon2idHash(const void* in, size_t size, const void* out) {
+// Функция для вычисления хеша Argon2id
+int GetArgon2idHash(const void* in, size_t size, void* out) {
     argon2_context context;
     context.out = (uint8_t*)out;
-    context.outlen = (uint32_t)OUTPUT_BYTES;
+    context.outlen = OUTPUT_BYTES;
     context.pwd = (uint8_t*)in;
-    context.pwdlen = (uint32_t)size;
+    context.pwdlen = size;
     context.salt = (uint8_t*)in; //salt = input
-    context.saltlen = (uint32_t)size;
+    context.saltlen = size;
     context.secret = NULL;
     context.secretlen = 0;
     context.ad = NULL;
@@ -76,17 +76,27 @@ int GetArgon2idHash(const void* in, size_t size, const void* out) {
     context.lanes = 8;    // Degree of Parallelism
     context.threads = 1;  // Threads
     context.t_cost = 2;   // Iterations
-
-    return argon2_ctx(&context, Argon2_id);
+    
+    // Вычисление хеша Argon2id
+    int rc = argon2_ctx(&context, Argon2_id);
+    if (ARGON2_OK != rc) {
+        printf("Error: %s\n", argon2_error_message(rc));
+        exit(1);
+    }
+    
+    return rc; // Возвращаем код завершения Argon2
 }
 
 // Функция для получения хэша Argon2id из блока
 uint256 CBlockHeader::GetArgon2idPoWHash() const {
     uint256 hashResult;
-    GetArgon2idHash((const uint8_t*)this, sizeof(*this), (uint8_t*)&hashResult);
+    int rc = GetArgon2idHash(this, sizeof(*this), &hashResult);
+    if (ARGON2_OK != rc) {
+        printf("Error: Failed to compute Argon2id hash\n");
+        exit(1);
+    }
     return hashResult;
 }
-
 
 
 std::string CBlock::ToString() const
