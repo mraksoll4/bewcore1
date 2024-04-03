@@ -10,7 +10,6 @@
 #include <crypto/common.h>
 #include <crypto/ripemd160.h>
 #include <crypto/sha256.h>
-#include <crypto/sha512.h>
 #include <prevector.h>
 #include <serialize.h>
 #include <span.h>
@@ -21,45 +20,6 @@
 #include <vector>
 
 typedef uint256 ChainCode;
-
-/** A hasher class for your custom hash (SHA-512 > SHA-512 > SHA-256 > SHA-256). */
-class CCustomHash {
-private:
-    CSHA512 sha512;
-    CSHA256 sha256;
-public:
-    static const size_t OUTPUT_SIZE = CSHA256::OUTPUT_SIZE;
-
-    void Finalize(Span<unsigned char> output) {
-        assert(output.size() == OUTPUT_SIZE);
-        unsigned char buf[CSHA512::OUTPUT_SIZE];
-        sha512.Finalize(buf);
-        sha512.Reset().Write(buf, CSHA512::OUTPUT_SIZE).Finalize(buf);
-        sha256.Write(buf, CSHA512::OUTPUT_SIZE).Finalize(buf);
-        sha256.Reset().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(output.data());
-    }
-
-    CCustomHash& Write(Span<const unsigned char> input) {
-        sha512.Write(input.data(), input.size());
-        return *this;
-    }
-
-    CCustomHash& Reset() {
-        sha512.Reset();
-        sha256.Reset();
-        return *this;
-    }
-};
-
-/** Compute the 256-bit hash of an object. */
-template<typename T>
-inline uint256 CustomHash(const T& in1)
-{
-    uint256 result;
-    CCustomHash().Write(MakeUCharSpan(in1)).Finalize(result);
-    return result;
-}
-
 
 /** A hasher class for Bewcore's 256-bit hash (double SHA-256). */
 class CHash256 {

@@ -4,7 +4,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <primitives/block.h>
-
 #include <hash.h>
 #include <tinyformat.h>
 
@@ -15,12 +14,9 @@
 #include <version.h>
 #include <stdlib.h> // exit()
 #include <sync.h>
-
+#include <crypto/sha512.h>
 #include <crypto/argon2d/argon2.h>
 #include <crypto/argon2d/blake2/blake2.h>
-
-static const size_t OUTPUT_BYTES = 32;
-static const unsigned int DEFAULT_ARGON2_FLAG = 2;
 
 uint256 CBlockHeader::GetHash() const
 {
@@ -54,50 +50,32 @@ uint256 CBlockHeader::GetPoWHash2() const
     return CustomHash(ss);
 }
 
-
-// Функция для вычисления хеша Argon2id
-int GetArgon2idHash(const void* in, size_t size, void* out) {
-    argon2_context context;
-    context.out = (uint8_t*)out;
-    context.outlen = OUTPUT_BYTES;
-    context.pwd = (uint8_t*)in;
-    context.pwdlen = size;
-    context.salt = (uint8_t*)in; //salt = input
-    context.saltlen = size;
-    context.secret = NULL;
-    context.secretlen = 0;
-    context.ad = NULL;
-    context.adlen = 0;
-    context.allocate_cbk = NULL;
-    context.free_cbk = NULL;
-    context.flags = DEFAULT_ARGON2_FLAG; // = ARGON2_DEFAULT_FLAGS
-    // main configurable Argon2 hash parameters
-    context.m_cost = 500; // Memory in KiB (512KB)
-    context.lanes = 8;    // Degree of Parallelism
-    context.threads = 1;  // Threads
-    context.t_cost = 2;   // Iterations
+uint256 CBlockHeader::GetArgon2idPoWHash() const
+{
+    uint256 hash;
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << *this;
     
-    // Вычисление хеша Argon2id
-    int rc = argon2_ctx(&context, Argon2_id);
-    if (ARGON2_OK != rc) {
-        printf("Error: %s\n", argon2_error_message(rc));
-        exit(1);
-    }
+    // Hashing the data using SHA-512 (two rounds)
+    std::vector<unsigned char> salt_sha512(CSHA512::OUTPUT_SIZE);
+    CSHA512().Write((unsigned char*)&ss[0], ss.size()).Finalize(salt_sha512.data());
+    CSHA512().Write(salt_sha512.data(), salt_sha512.size()).Finalize(salt_sha512.data());
     
-    return rc; // Возвращаем код завершения Argon2
-}
-
-// Функция для получения хэша Argon2id из блока
-uint256 CBlockHeader::GetArgon2idPoWHash() const {
-    uint256 hashResult;
-    int rc = GetArgon2idHash(this, sizeof(*this), &hashResult);
-    if (ARGON2_OK != rc) {
+    // Preparing data for hashing
+    const void* pwd = &ss[0];
+    size_t pwdlen = ss.size();
+    const void* salt = salt_sha512.data();
+    size_t saltlen = salt_sha512.size();
+    
+    // Calling the argon2id_hash_raw function
+    int rc = argon2id_hash_raw(2, 16000, 16, pwd, pwdlen, salt, saltlen, &hash, 32);
+    if (rc != ARGON2_OK) {
         printf("Error: Failed to compute Argon2id hash\n");
         exit(1);
     }
-    return hashResult;
+    
+    return hash;
 }
-
 
 std::string CBlock::ToString() const
 {

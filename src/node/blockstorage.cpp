@@ -1039,9 +1039,15 @@ bool BlockManager::ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos) cons
         return error("%s: Deserialize or I/O error - %s at %s", __func__, e.what(), pos.ToString());
     }
 
+    auto hash1 = block.GetArgon2idPoWHash();
+    auto hash2 = block.GetArgon2idPoWHash();
+
     // Check the header for both variants of Proof of Work
     bool powResult1 = CheckProofOfWork(block.GetArgon2idPoWHash(), block.nBits, GetConsensus());
     bool powResult2 = CheckProofOfWork(block.GetArgon2idPoWHash(), block.nBits, GetConsensus());
+
+    error("Hash 1: %s", hash1.ToString());
+    error("Hash 2: %s", hash2.ToString());
 
     if (!(powResult1 && powResult2)) {
         return error("ReadBlockFromDisk: Proof of Work is not valid for both variants for the block header at %s", pos.ToString());
