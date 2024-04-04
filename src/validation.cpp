@@ -370,9 +370,18 @@ void Chainstate::MaybeUpdateMempoolForReorg(
                 const Coin& coin{CoinsTip().AccessCoin(txin.prevout)};
                 assert(!coin.IsSpent());
                 const auto mempool_spend_height{m_chain.Tip()->nHeight + 1};
-                if (coin.IsCoinBase() && mempool_spend_height - coin.nHeight < COINBASE_MATURITY) {
+                /*if (coin.IsCoinBase() && mempool_spend_height - coin.nHeight < COINBASE_MATURITY) {
                     return true;
+                }*/
+				// Premine lock logic add.
+                if (coin.IsCoinBase()) {
+                    if (coin.nHeight < 200 && mempool_spend_height - coin.nHeight < COINBASE_MATURITY2) {
+                        return true;
+                    } else if (mempool_spend_height - coin.nHeight < COINBASE_MATURITY) {
+                        return true;
+                    }
                 }
+
             }
         }
         // Transaction is still valid and cached LockPoints are updated.
