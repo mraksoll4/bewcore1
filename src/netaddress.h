@@ -78,7 +78,7 @@ static const std::array<uint8_t, 6> TORV2_IN_IPV6_PREFIX{
 /// Such dummy IPv6 addresses are guaranteed to not be publicly routable as they
 /// fall under RFC4193's fc00::/7 subnet allocated to unique-local addresses.
 static const std::array<uint8_t, 6> INTERNAL_IN_IPV6_PREFIX{
-    0xFD, 0xEE, 0xBE, 0x67, 0xF9, 0xF2 // 0xFD + sha256("bewcore")[0:5].
+    0xFD, 0xA8, 0xFC, 0x80, 0x44, 0x9E // 0xFD + sha256("dpowcoin")[0:5]
 };
 
 /// All CJDNS addresses start with 0xFC. See

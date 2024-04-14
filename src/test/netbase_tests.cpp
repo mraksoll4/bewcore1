@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(netbase_properties)
     BOOST_CHECK(ResolveIP("8.8.8.8").IsRoutable());
     BOOST_CHECK(ResolveIP("2001::1").IsRoutable());
     BOOST_CHECK(ResolveIP("127.0.0.1").IsValid());
-    BOOST_CHECK(CreateInternal("FDEE:BE67:F9F2:edb1:8e4:3588:e546:35ca").IsInternal());
+    BOOST_CHECK(CreateInternal("FDA8:FC80:449E:edb1:8e4:3588:e546:35ca").IsInternal());
     BOOST_CHECK(CreateInternal("bar.com").IsInternal());
 
 }
@@ -143,9 +143,9 @@ BOOST_AUTO_TEST_CASE(netbase_lookupnumeric)
     BOOST_CHECK(TestParse(":::", "[::]:0"));
 
     // verify that an internal address fails to resolve
-    BOOST_CHECK(TestParse("[fdee:be67:f9f2:1:2:3:4:5]", "[::]:0"));
+    BOOST_CHECK(TestParse("[fda8:fc80:449e:1:2:3:4:5]", "[::]:0"));
     // and that a one-off resolves correctly
-    BOOST_CHECK(TestParse("[fdec:be67:f9f2:1:2:3:4:5]", "[fdec:be67:f9f2:1:2:3:4:5]:65535"));
+    BOOST_CHECK(TestParse("[fda9:fc80:449e:1:2:3:4:5]", "[fda9:fc80:449e:1:2:3:4:5]:65535"));
 }
 
 BOOST_AUTO_TEST_CASE(embedded_test)
