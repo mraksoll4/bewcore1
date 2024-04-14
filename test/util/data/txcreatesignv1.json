@@ -23,9 +23,9 @@
             "n": 0,
             "scriptPubKey": {
                 "asm": "OP_DUP OP_HASH160 5834479edbbe0539b31ffd3a8f8ebadc2165ed01 OP_EQUALVERIFY OP_CHECKSIG",
-                "desc": "addr(BCVTi4M8BaN7Eai5xeEVu9VYB3HGpT93JL)#c088gxge",
+                "desc": "addr(PGdZFKHmUzGPmatghEE4Suf94B1a9ey8gS)#nw04wh58",
                 "hex": "76a9145834479edbbe0539b31ffd3a8f8ebadc2165ed0188ac",
-                "address": "BCVTi4M8BaN7Eai5xeEVu9VYB3HGpT93JL",
+                "address": "PGdZFKHmUzGPmatghEE4Suf94B1a9ey8gS",
                 "type": "pubkeyhash"
             }
         }
