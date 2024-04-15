@@ -360,14 +360,14 @@ public:
         vFixedSeeds.clear();
 
         m_assumeutxo_data = {
-        /*
+        
             {
                 .height = 160'000,
                 .hash_serialized = AssumeutxoHash{uint256S("0xfe0a44309b74d6b5883d246cb419c6221bcccf0b308c9b59b7d70783dbdf928a")},
                 .nChainTx = 2289496,
                 .blockhash = uint256S("0x0000003ca3c99aff040f2563c2ad8f8ec88bd0fd6b8f0895cfaf1ef90353a62c")
             }
-        */
+        
         };
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
