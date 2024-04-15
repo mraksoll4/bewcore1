@@ -500,7 +500,7 @@ BOOST_FIXTURE_TEST_CASE(chainstatemanager_loadblockindex, TestChain100Setup)
     BOOST_CHECK_EQUAL(num_indexes, 121); // 121 total blocks, including genesis
     BOOST_CHECK_EQUAL(assumed_tip->nHeight, 120);  // original chain has height 120
     BOOST_CHECK_EQUAL(validated_tip->nHeight, 90); // current cs1 chain has height 90
-    BOOST_CHECK_EQUAL(assumed_base->nHeight, 110); // current cs2 chain has height 110
+    BOOST_CHECK_EQUAL(assumed_base->nHeight, 100); // current cs2 chain has height 110
 
     // Regenerate cs1.setBlockIndexCandidates and cs2.setBlockIndexCandidate and
     // check contents below.

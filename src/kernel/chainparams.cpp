@@ -75,12 +75,12 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 420000;
-        consensus.BIP34Height = 111;
+        consensus.BIP34Height = 110;
         consensus.BIP34Hash = uint256{};
-        consensus.BIP65Height = 111;
-        consensus.BIP66Height = 111;
-        consensus.CSVHeight = 111;
-        consensus.SegwitHeight = 111;
+        consensus.BIP65Height = 110;
+        consensus.BIP66Height = 110;
+        consensus.CSVHeight = 110;
+        consensus.SegwitHeight = 110;
         consensus.MinBIP9WarningHeight = 4033; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
