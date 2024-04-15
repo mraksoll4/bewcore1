@@ -246,9 +246,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
             tx.vin[0].prevout.hash = hash;
         }
 
-        if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
-			BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-blk-sigops"));
-        }
+        BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-blk-sigops"));
     }
 
     {
@@ -299,9 +297,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
         // orphan in tx_mempool, template creation fails
         hash = tx.GetHash();
         tx_mempool.addUnchecked(entry.Fee(LOWFEE).Time(Now<NodeSeconds>()).FromTx(tx));
-        if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
-			BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-txns-inputs-missingorspent"));
-        }
+        BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-txns-inputs-missingorspent"));
     }
 
     {
@@ -338,9 +334,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
         // give it a fee so it'll get mined
         tx_mempool.addUnchecked(entry.Fee(LOWFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(false).FromTx(tx));
         // Should throw bad-cb-multiple
-        if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
-			BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-cb-multiple"));
-        }
+        BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-cb-multiple"));
     }
 
     {
@@ -357,9 +351,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
         tx.vout[0].scriptPubKey = CScript() << OP_2;
         hash = tx.GetHash();
         tx_mempool.addUnchecked(entry.Fee(HIGHFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(true).FromTx(tx));
-        if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
-			BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-txns-inputs-missingorspent"));
-        }
+        BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-txns-inputs-missingorspent"));
     }
 
     {
@@ -430,24 +422,23 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
     std::vector<int> prevheights;
 
     // relative height locked
-    if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
-        tx.nVersion = 2;
-        tx.vin.resize(1);
-        prevheights.resize(1);
-        tx.vin[0].prevout.hash = txFirst[0]->GetHash(); // only 1 transaction
-        tx.vin[0].prevout.n = 0;
-        tx.vin[0].scriptSig = CScript() << OP_1;
-        tx.vin[0].nSequence = m_node.chainman->ActiveChain().Tip()->nHeight + 1; // txFirst[0] is the 2nd block
-        prevheights[0] = baseheight + 1;
-        tx.vout.resize(1);
-        tx.vout[0].nValue = BLOCKSUBSIDY-HIGHFEE;
-        tx.vout[0].scriptPubKey = CScript() << OP_1;
-        tx.nLockTime = 0;
-        hash = tx.GetHash();
-        tx_mempool.addUnchecked(entry.Fee(HIGHFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(true).FromTx(tx));
-        BOOST_CHECK(CheckFinalTxAtTip(*Assert(m_node.chainman->ActiveChain().Tip()), CTransaction{tx})); // Locktime passes
-        BOOST_CHECK(!TestSequenceLocks(CTransaction{tx}, tx_mempool)); // Sequence locks fail
-    }
+    tx.nVersion = 2;
+    tx.vin.resize(1);
+    prevheights.resize(1);
+    tx.vin[0].prevout.hash = txFirst[0]->GetHash(); // only 1 transaction
+    tx.vin[0].prevout.n = 0;
+    tx.vin[0].scriptSig = CScript() << OP_1;
+    tx.vin[0].nSequence = m_node.chainman->ActiveChain().Tip()->nHeight + 1; // txFirst[0] is the 2nd block
+    prevheights[0] = baseheight + 1;
+    tx.vout.resize(1);
+    tx.vout[0].nValue = BLOCKSUBSIDY-HIGHFEE;
+    tx.vout[0].scriptPubKey = CScript() << OP_1;
+    tx.nLockTime = 0;
+    hash = tx.GetHash();
+    tx_mempool.addUnchecked(entry.Fee(HIGHFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(true).FromTx(tx));
+    BOOST_CHECK(CheckFinalTxAtTip(*Assert(m_node.chainman->ActiveChain().Tip()), CTransaction{tx})); // Locktime passes
+    BOOST_CHECK(!TestSequenceLocks(CTransaction{tx}, tx_mempool)); // Sequence locks fail
+
     {
         CBlockIndex* active_chain_tip = m_node.chainman->ActiveChain().Tip();
         BOOST_CHECK(SequenceLocks(CTransaction(tx), flags, prevheights, *CreateBlockIndex(active_chain_tip->nHeight + 2, active_chain_tip))); // Sequence locks pass on 2nd block
