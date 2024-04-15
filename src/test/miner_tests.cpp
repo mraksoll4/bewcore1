@@ -213,8 +213,8 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
     uint256 hash;
     CMutableTransaction tx;
     TestMemPoolEntryHelper entry;
-    entry.nFee = 11;
-    entry.nHeight = 11;
+    entry.nFee = 2;
+    entry.nHeight = 2;
 
     const CAmount BLOCKSUBSIDY = 50 * COIN;
     const CAmount LOWFEE = CENT;
