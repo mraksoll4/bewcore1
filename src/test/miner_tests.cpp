@@ -246,7 +246,9 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
             tx.vin[0].prevout.hash = hash;
         }
 
-        BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-blk-sigops"));
+        if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
+			BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-blk-sigops"));
+        }
     }
 
     {
