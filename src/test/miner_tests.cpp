@@ -613,7 +613,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
     // We can't make transactions until we have inputs
     // Therefore, load 102 blocks :)
-    static_assert(std::size(BLOCKINFO) == 102, "Should have 110 blocks to import");
+    static_assert(std::size(BLOCKINFO) == 102, "Should have 102 blocks to import");
     int baseheight = 0;
     std::vector<CTransactionRef> txFirst;
     for (const auto& bi : BLOCKINFO) {
