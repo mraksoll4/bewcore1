@@ -18,8 +18,8 @@ from test_framework.script import OP_0, OP_1, OP_2, OP_3, OP_16, OP_DUP, OP_EQUA
 from test_framework.segwit_addr import bech32_encode, decode_segwit_address, convertbits, CHARSET, Encoding  # noqa: E402
 
 # key types
-PUBKEY_ADDRESS = 25
-SCRIPT_ADDRESS = 73
+PUBKEY_ADDRESS = 55
+SCRIPT_ADDRESS = 28
 PUBKEY_ADDRESS_TEST = 111
 SCRIPT_ADDRESS_TEST = 196
 PUBKEY_ADDRESS_REGTEST = 111
@@ -119,7 +119,7 @@ def is_valid(v):
 
 def is_valid_bech32(v):
     '''Check vector v for bech32 validity'''
-    for hrp in ['bc', 'tb', 'bcrt']:
+    for hrp in ['dpc', 'tb', 'bcrt']:
         if decode_segwit_address(hrp, v) != (None, None):
             return True
     return False
