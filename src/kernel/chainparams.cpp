@@ -360,14 +360,14 @@ public:
         vFixedSeeds.clear();
 
         m_assumeutxo_data = {
-        
+            /*
             {
                 .height = 160'000,
                 .hash_serialized = AssumeutxoHash{uint256S("0xfe0a44309b74d6b5883d246cb419c6221bcccf0b308c9b59b7d70783dbdf928a")},
                 .nChainTx = 2289496,
                 .blockhash = uint256S("0x0000003ca3c99aff040f2563c2ad8f8ec88bd0fd6b8f0895cfaf1ef90353a62c")
             }
-        
+            */
         };
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
@@ -478,6 +478,7 @@ public:
         };
 
         m_assumeutxo_data = {
+            /*
             {
                 .height = 110,
                 .hash_serialized = AssumeutxoHash{uint256S("0x6657b736d4fe4db0cbc796789e812d5dba7f5c143764b1b6905612f1830609d1")},
@@ -491,6 +492,7 @@ public:
                 .nChainTx = 300,
                 .blockhash = uint256S("0x7e0517ef3ea6ecbed9117858e42eedc8eb39e8698a38dcbd1b3962a283233f4c")
             },
+            */
         };
 
         chainTxData = ChainTxData{
