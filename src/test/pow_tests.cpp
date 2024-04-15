@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(get_next_work)
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
 }
 
-/* Test the constraint on the upper bound for next work 
+ Test the constraint on the upper bound for next work 
 BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
 {
     const auto chainParams = CreateChainParams(*m_node.args, ChainType::MAIN);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
 }
 
-/* Test the constraint on the lower bound for actual time taken 
+ Test the constraint on the lower bound for actual time taken 
 BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
 {
     const auto chainParams = CreateChainParams(*m_node.args, ChainType::MAIN);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
     BOOST_CHECK(!PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, invalid_nbits));
 }
 
-/* Test the constraint on the upper bound for actual time taken 
+ Test the constraint on the upper bound for actual time taken 
 BOOST_AUTO_TEST_CASE(get_next_work_upper_limit_actual)
 {
     const auto chainParams = CreateChainParams(*m_node.args, ChainType::MAIN);
