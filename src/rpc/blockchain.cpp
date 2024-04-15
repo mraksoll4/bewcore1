@@ -1621,7 +1621,7 @@ static RPCHelpMan getchaintxstats()
                     }},
                 RPCExamples{
                     HelpExampleCli("getchaintxstats", "")
-            + HelpExampleRpc("getchaintxstats", "2016")
+            + HelpExampleRpc("getchaintxstats", "4032")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
