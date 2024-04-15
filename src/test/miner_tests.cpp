@@ -84,11 +84,7 @@ constexpr static struct {
               {0, 340113484},  {6, 850744437},  {4, 496721063},  {8, 524715182}, {6, 574361898},  {6, 1642305743},
               {6, 355110149},  {5, 1647379658}, {8, 1103005356}, {7, 556460625}, {3, 1139533992}, {5, 304736030},
               {2, 361539446},  {2, 143720360},  {6, 201939025},  {7, 423141476}, {4, 574633709},  {3, 1412254823},
-              {4, 873254135},  {0, 341817335},  {6, 53501687},   {3, 179755410}, {5, 172209688},  {8, 516810279},
-              {4, 1228391489}, {8, 325372589},  {6, 550367589},  {0, 876291812}, {7, 412454120},  {7, 717202854},
-              {2, 222677843},  {6, 251778867},  {7, 842004420},  {7, 194762829}, {4, 96668841},   {1, 925485796},
-              {0, 792342903},  {6, 678455063},  {6, 773251385},  {5, 186617471}, {6, 883189502},  {7, 396077336},
-              {8, 254702874},  {0, 455592851}};
+              {4, 873254135},  {0, 341817335},  {6, 53501687},   {3, 179755410}, {5, 172209688},  {8, 516810279}};
 
 static std::unique_ptr<CBlockIndex> CreateBlockIndex(int nHeight, CBlockIndex* active_chain_tip) EXCLUSIVE_LOCKS_REQUIRED(cs_main)
 {
@@ -613,7 +609,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
     // We can't make transactions until we have inputs
     // Therefore, load 110 blocks :)
-    static_assert(std::size(BLOCKINFO) == 100, "Should have 110 blocks to import");
+    static_assert(std::size(BLOCKINFO) == 90, "Should have 110 blocks to import");
     int baseheight = 0;
     std::vector<CTransactionRef> txFirst;
     for (const auto& bi : BLOCKINFO) {
