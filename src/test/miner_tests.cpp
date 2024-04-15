@@ -430,21 +430,21 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
     std::vector<int> prevheights;
 
     // relative height locked
-    tx.nVersion = 2;
-    tx.vin.resize(1);
-    prevheights.resize(1);
-    tx.vin[0].prevout.hash = txFirst[0]->GetHash(); // only 1 transaction
-    tx.vin[0].prevout.n = 0;
-    tx.vin[0].scriptSig = CScript() << OP_1;
-    tx.vin[0].nSequence = m_node.chainman->ActiveChain().Tip()->nHeight + 1; // txFirst[0] is the 2nd block
-    prevheights[0] = baseheight + 1;
-    tx.vout.resize(1);
-    tx.vout[0].nValue = BLOCKSUBSIDY-HIGHFEE;
-    tx.vout[0].scriptPubKey = CScript() << OP_1;
-    tx.nLockTime = 0;
-    hash = tx.GetHash();
-    tx_mempool.addUnchecked(entry.Fee(HIGHFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(true).FromTx(tx));
     if (m_node.chainman->ActiveChain().Tip()->nHeight <= 3) {
+        tx.nVersion = 2;
+        tx.vin.resize(1);
+        prevheights.resize(1);
+        tx.vin[0].prevout.hash = txFirst[0]->GetHash(); // only 1 transaction
+        tx.vin[0].prevout.n = 0;
+        tx.vin[0].scriptSig = CScript() << OP_1;
+        tx.vin[0].nSequence = m_node.chainman->ActiveChain().Tip()->nHeight + 1; // txFirst[0] is the 2nd block
+        prevheights[0] = baseheight + 1;
+        tx.vout.resize(1);
+        tx.vout[0].nValue = BLOCKSUBSIDY-HIGHFEE;
+        tx.vout[0].scriptPubKey = CScript() << OP_1;
+        tx.nLockTime = 0;
+        hash = tx.GetHash();
+        tx_mempool.addUnchecked(entry.Fee(HIGHFEE).Time(Now<NodeSeconds>()).SpendsCoinbase(true).FromTx(tx));
         BOOST_CHECK(CheckFinalTxAtTip(*Assert(m_node.chainman->ActiveChain().Tip()), CTransaction{tx})); // Locktime passes
         BOOST_CHECK(!TestSequenceLocks(CTransaction{tx}, tx_mempool)); // Sequence locks fail
     }
