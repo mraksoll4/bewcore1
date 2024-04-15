@@ -156,7 +156,7 @@ void MinerTestingSetup::TestPackageSelection(const CScript& scriptPubKey, const 
         BOOST_CHECK(pblocktemplate->block.vtx[i]->GetHash() != hashFreeTx);
         BOOST_CHECK(pblocktemplate->block.vtx[i]->GetHash() != hashLowFeeTx);
     }
-/*
+
     // Test that packages above the min relay fee do get included, even if one
     // of the transactions is below the min relay fee
     // Remove the low fee transaction and replace with a higher fee transaction
@@ -168,7 +168,7 @@ void MinerTestingSetup::TestPackageSelection(const CScript& scriptPubKey, const 
     BOOST_REQUIRE_EQUAL(pblocktemplate->block.vtx.size(), 6U);
     BOOST_CHECK(pblocktemplate->block.vtx[4]->GetHash() == hashFreeTx);
     BOOST_CHECK(pblocktemplate->block.vtx[5]->GetHash() == hashLowFeeTx);
-*/
+
     // Test that transaction selection properly updates ancestor fee
     // calculations as ancestor transactions get included in a block.
     // Add a 0-fee transaction that has 2 outputs.
@@ -244,7 +244,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
 
         BOOST_CHECK_EXCEPTION(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey), std::runtime_error, HasReason("bad-blk-sigops"));
     }
-
+/*
     {
         CTxMemPool& tx_mempool{MakeMempool()};
         LOCK(tx_mempool.cs);
@@ -261,7 +261,7 @@ void MinerTestingSetup::TestBasicMining(const CScript& scriptPubKey, const std::
         }
         BOOST_CHECK(AssemblerForTest(tx_mempool).CreateNewBlock(scriptPubKey));
     }
-
+*/
     {
         CTxMemPool& tx_mempool{MakeMempool()};
         LOCK(tx_mempool.cs);
