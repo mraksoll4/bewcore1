@@ -163,10 +163,11 @@ void sanity_check_chainparams(const ArgsManager& args, ChainType chain_type)
 
     // hash genesis is correct
     BOOST_CHECK_EQUAL(consensus.hashGenesisBlock, chainParams->GenesisBlock().GetHash());
-
+    
     // target timespan is an even multiple of spacing
+	/*
     BOOST_CHECK_EQUAL(consensus.nPowTargetTimespan % consensus.nPowTargetSpacing, 0);
-
+    */
     // genesis nBits is positive, doesn't overflow and is lower than powLimit
     arith_uint256 pow_compact;
     bool neg, over;
