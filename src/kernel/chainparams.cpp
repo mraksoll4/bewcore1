@@ -83,8 +83,8 @@ public:
         consensus.SegwitHeight = 2;
         consensus.MinBIP9WarningHeight = 4033; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 5* 60;
-        consensus.nPowTargetSpacing = 5 *60;
+        consensus.nPowTargetTimespan = 5 * 60;
+        consensus.nPowTargetSpacing = 5 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 3628; // ~ 90% of 4032
@@ -249,14 +249,14 @@ public:
         };
 
         m_assumeutxo_data = {
-        /*
+        
             {
                 .height = 2'500'000,
                 .hash_serialized = AssumeutxoHash{uint256S("0xf841584909f68e47897952345234e37fcd9128cd818f41ee6c3ca68db8071be7")},
                 .nChainTx = 66484552,
                 .blockhash = uint256S("0x0000000000000093bcb68c03a9a168ae252572d348a2eaeba2cdf9231d73206f")
             }
-        */
+        
         };
 
         chainTxData = ChainTxData{
@@ -324,7 +324,7 @@ public:
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
         consensus.SegwitHeight = 1;
-        consensus.nPowTargetTimespan = 5 * 60; // two weeks
+        consensus.nPowTargetTimespan = 5 * 60;
         consensus.nPowTargetSpacing = 5 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -360,14 +360,14 @@ public:
         vFixedSeeds.clear();
 
         m_assumeutxo_data = {
-            /*
+        
             {
                 .height = 160'000,
                 .hash_serialized = AssumeutxoHash{uint256S("0xfe0a44309b74d6b5883d246cb419c6221bcccf0b308c9b59b7d70783dbdf928a")},
                 .nChainTx = 2289496,
                 .blockhash = uint256S("0x0000003ca3c99aff040f2563c2ad8f8ec88bd0fd6b8f0895cfaf1ef90353a62c")
             }
-            */
+        
         };
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
@@ -478,7 +478,6 @@ public:
         };
 
         m_assumeutxo_data = {
-            
             {
                 .height = 110,
                 .hash_serialized = AssumeutxoHash{uint256S("0x6657b736d4fe4db0cbc796789e812d5dba7f5c143764b1b6905612f1830609d1")},
@@ -492,7 +491,6 @@ public:
                 .nChainTx = 300,
                 .blockhash = uint256S("0x7e0517ef3ea6ecbed9117858e42eedc8eb39e8698a38dcbd1b3962a283233f4c")
             },
-            
         };
 
         chainTxData = ChainTxData{
