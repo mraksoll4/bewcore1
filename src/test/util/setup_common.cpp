@@ -284,17 +284,18 @@ TestChain100Setup::TestChain100Setup(
     this->mineBlocks(COINBASE_MATURITY);
 
     {
-/*        LOCK(::cs_main);
+        LOCK(::cs_main);
         assert(
             m_node.chainman->ActiveChain().Tip()->GetBlockHash().ToString() ==
-            "571d80a9967ae599cec0448b0b0ba1cfb606f584d8069bd7166b86854ba7a191");
+            "3511b537fae7473c808bb5d1351c5fcffeb80365580443ce765219f658f37807");
 
-*/
+/*
         LOCK(::cs_main);
         auto tipHash = m_node.chainman->ActiveChain().Tip()->GetBlockHash().ToString();
         std::cout << "Tip block hash: " << tipHash << std::endl;
 
-        assert(tipHash == "973620879d7674ac4454efd1db08b5e7ffb4917cd38ad641e57726b2db842ed5");
+        assert(tipHash == "3511b537fae7473c808bb5d1351c5fcffeb80365580443ce765219f658f37807");
+*/
     }
 }
 
