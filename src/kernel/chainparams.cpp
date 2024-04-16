@@ -479,7 +479,6 @@ public:
         };
 
         m_assumeutxo_data = {
-        /*
             {
                 .height = 110,
                 .hash_serialized = AssumeutxoHash{uint256S("0x6657b736d4fe4db0cbc796789e812d5dba7f5c143764b1b6905612f1830609d1")},
@@ -493,7 +492,6 @@ public:
                 .nChainTx = 300,
                 .blockhash = uint256S("0x7e0517ef3ea6ecbed9117858e42eedc8eb39e8698a38dcbd1b3962a283233f4c")
             },
-        */
         };
 
         chainTxData = ChainTxData{
