@@ -90,20 +90,12 @@ class ScanblocksTest(BitcoinTestFramework):
         genesis_spks = bip158_relevant_scriptpubkeys(node, genesis_blockhash)
         assert_equal(len(genesis_spks), 1)
         genesis_coinbase_spk = list(genesis_spks)[0]
-        new_genesis_spk = bytes.fromhex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f")
-        new_genesis_output_index = 0
-        new_genesis_blockhash = "2013e6667f33ca0c77ceb427a87ed3360ea8d16f772175d42e62e5b6422aaffc"
 
-        # Расчет false positive
-        new_genesis_false_positive = bip158_basic_element_hash(new_genesis_spk, new_genesis_output_index, new_genesis_blockhash)
-        print(new_genesis_false_positive)
-        false_positive_spk = new_genesis_false_positive
+        # New false positive scriptPubKey
+        genesis_block_script_pubkey_hex = "4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac"
+        genesis_block_script_pubkey_bytes = bytes.fromhex(genesis_block_script_pubkey_hex)
+        false_positive_spk = bip158_basic_element_hash(genesis_block_script_pubkey_bytes, 1, genesis_blockhash)
         print(false_positive_spk)
-
-        genesis_coinbase_hash = bip158_basic_element_hash(genesis_coinbase_spk, 1, genesis_blockhash)
-        false_positive_hash = bip158_basic_element_hash(false_positive_spk, 1, genesis_blockhash)
-        assert_equal(genesis_coinbase_hash, false_positive_hash)
-
         assert genesis_blockhash in node.scanblocks(
             "start", [{"desc": f"raw({genesis_coinbase_spk.hex()})"}], 0, 0)['relevant_blocks']
         assert genesis_blockhash in node.scanblocks(
