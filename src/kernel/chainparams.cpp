@@ -485,16 +485,16 @@ public:
         m_assumeutxo_data = {
             {
                 .height = 110,
-                .hash_serialized = AssumeutxoHash{uint256S("0x7b26b793bf3a3962f229e75c9488dcaf68e99e9e899c9d8b0a9feed2adafa300")},
+                .hash_serialized = AssumeutxoHash{uint256S("0x54a6b9d9eb7d7a22b879d26ad040da6cd5644cd4ef945af51037a619d2db4f97")},
                 .nChainTx = 111,
-                .blockhash = uint256S("0x54a6b9d9eb7d7a22b879d26ad040da6cd5644cd4ef945af51037a619d2db4f97")
+                .blockhash = uint256S("0x7b26b793bf3a3962f229e75c9488dcaf68e99e9e899c9d8b0a9feed2adafa300")
             },
             {
                 // For use by test/functional/feature_assumeutxo.py
                 .height = 299,
-                .hash_serialized = AssumeutxoHash{uint256S("0x5a7d015ea5fb27f10ec504fb73bcff07b39d455d4ce935fb40f3e7467e45ebd7")},
+                .hash_serialized = AssumeutxoHash{uint256S("0x36ee8103ac1a26690a6a2369823b7d382d11def50851258d009f6d04073a99a1")},
                 .nChainTx = 300,
-                .blockhash = uint256S("0x36ee8103ac1a26690a6a2369823b7d382d11def50851258d009f6d04073a99a1")
+                .blockhash = uint256S("0x5a7d015ea5fb27f10ec504fb73bcff07b39d455d4ce935fb40f3e7467e45ebd7")
             },
         };
 
