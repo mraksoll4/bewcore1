@@ -487,6 +487,7 @@ class PruneTest(BitcoinTestFramework):
         node = self.nodes[5]
         print(node)
         genesis_blockhash = node.getblockhash(0)
+        print(genesis_blockhash)
         false_positive_spk = bytes.fromhex("001400000000000000000000000000000000000cadcb")
         print(false_positive_spk)
         assert genesis_blockhash in node.scanblocks(
