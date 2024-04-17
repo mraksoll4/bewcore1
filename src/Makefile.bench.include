@@ -22,7 +22,6 @@ bench_bench_bewcore_SOURCES = \
   bench/block_assemble.cpp \
   bench/ccoins_caching.cpp \
   bench/chacha20.cpp \
-  bench/checkblock.cpp \
   bench/checkqueue.cpp \
   bench/crypto_hash.cpp \
   bench/data.cpp \
