@@ -284,18 +284,18 @@ TestChain100Setup::TestChain100Setup(
     this->mineBlocks(COINBASE_MATURITY);
 
     {
-        LOCK(::cs_main);
+/*        LOCK(::cs_main);
         assert(
             m_node.chainman->ActiveChain().Tip()->GetBlockHash().ToString() ==
             "3511b537fae7473c808bb5d1351c5fcffeb80365580443ce765219f658f37807");
+*/
 
-/*
         LOCK(::cs_main);
         auto tipHash = m_node.chainman->ActiveChain().Tip()->GetBlockHash().ToString();
         std::cout << "Tip block hash: " << tipHash << std::endl;
 
         assert(tipHash == "3511b537fae7473c808bb5d1351c5fcffeb80365580443ce765219f658f37807");
-*/
+
     }
 }
 
@@ -323,7 +323,7 @@ CBlock TestChain100Setup::CreateBlock(
     }
     RegenerateCommitments(block, *Assert(m_node.chainman));
 
-    while (!CheckProofOfWork(block.GetHash(), block.nBits, m_node.chainman->GetConsensus())) ++block.nNonce;
+    while (!(CheckProofOfWork(block.GetYespowerPoWHash(), block.nBits, m_node.chainman->GetConsensus()) && CheckProofOfWork(block.GetArgon2idPoWHash(), block.nBits, m_node.chainman->GetConsensus()))) ++block.nNonce;
 
     return block;
 }
