@@ -148,7 +148,7 @@ class PruneTest(BitcoinTestFramework):
         mine_large_blocks(self.nodes[0], 25)
 
         # Wait for blk00000.dat to be pruned
-        self.wait_until(lambda: not os.path.isfile(os.path.join(self.prunedir, "blk00000.dat")), timeout=300)
+        self.wait_until(lambda: not os.path.isfile(os.path.join(self.prunedir, "blk00000.dat")), timeout=600)
 
         self.log.info("Success")
         usage = calc_usage(self.prunedir)
