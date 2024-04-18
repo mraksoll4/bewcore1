@@ -29,6 +29,7 @@ import struct
 import time
 import unittest
 
+import import bewcore_yespower
 import argon2
 from test_framework.siphash import siphash256
 from test_framework.util import assert_equal
@@ -685,7 +686,7 @@ class CTransaction:
 
 class CBlockHeader:
     __slots__ = ("hash", "hashMerkleRoot", "hashPrevBlock", "nBits", "nNonce",
-                 "nTime", "nVersion", "sha256", "argon2id")
+                 "nTime", "nVersion", "sha256", "argon2id", "yespower")
 
     def __init__(self, header=None):
         if header is None:
@@ -700,6 +701,7 @@ class CBlockHeader:
             self.sha256 = header.sha256
             self.hash = header.hash
             self.argon2id = header.argon2id
+            self.yespower = header.yespower
             self.calc_sha256()
 
     def set_null(self):
@@ -712,6 +714,7 @@ class CBlockHeader:
         self.sha256 = None
         self.hash = None
         self.argon2id = None
+        self.yespower = None
 
     def deserialize(self, f):
         self.nVersion = struct.unpack("<i", f.read(4))[0]
@@ -723,6 +726,7 @@ class CBlockHeader:
         self.sha256 = None
         self.hash = None
         self.argon2id = None
+        self.yespower = None
 
     def serialize(self):
         r = b""
@@ -745,17 +749,27 @@ class CBlockHeader:
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = hash256(r)[::-1].hex()
-            print((self.sha256).hex())
+            # Print SHA-256 hash
+            print("SHA-256 hash:", self.sha256.hex())
+            
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
             hash2 = GetArgon2idHash(hash1, r, 32768)
             hash3 = hash2[::-1]
             self.argon2id = uint256_from_str(hash3)
-            print((hash3).hex())
+            # Print Argon2id hash
+            print("Argon2id hash:", hash3.hex())
+            
+            yhash = uint256_from_str(bewcore_yespower.getPoWHash(r))
+            self.yespower = yhash[::-1]
+            # Print YesPower hash
+            print("YesPower hash:", yhash.hex())
+            
 
     def rehash(self):
         self.sha256 = None
         self.argon2id = None
+        self.yespower = None
         self.calc_sha256()
         return self.sha256
 
@@ -819,7 +833,7 @@ class CBlock(CBlockHeader):
     def is_valid(self):
         self.calc_sha256()
         target = uint256_from_compact(self.nBits)
-        if self.argon2id > target:
+        while self.argon2id > target and self.yespower > target:
             return False
         for tx in self.vtx:
             if not tx.is_valid():
@@ -831,7 +845,7 @@ class CBlock(CBlockHeader):
     def solve(self):
         self.rehash()
         target = uint256_from_compact(self.nBits)
-        while self.argon2id > target:
+        while self.argon2id > target and self.yespower > target:
             self.nNonce += 1
             self.rehash()
 
