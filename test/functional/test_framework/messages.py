@@ -760,8 +760,8 @@ class CBlockHeader:
             # Print Argon2id hash
             print("Argon2id hash:", hash3.hex())
             
-            yhash = uint256_from_str(bewcore_yespower.getPoWHash(r))
-            self.yespower = yhash[::-1]
+            yhash = bewcore_yespower.getPoWHash(r)[::-1]
+            self.yespower = uint256_from_str(yhash)
             # Print YesPower hash
             print("YesPower hash:", yhash.hex())
             
