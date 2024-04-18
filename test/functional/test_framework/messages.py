@@ -29,8 +29,17 @@ import struct
 import time
 import unittest
 
+import argon2
 from test_framework.siphash import siphash256
 from test_framework.util import assert_equal
+
+def GetArgon2idHash(input, salts, cost):
+    hash = argon2.low_level.hash_secret_raw(
+        time_cost=2, memory_cost=cost, parallelism=2,
+        hash_len=32, secret=input, salt=salts,
+        type=argon2.low_level.Type.ID,
+    )
+    return hash
 
 MAX_LOCATOR_SZ = 101
 MAX_BLOCK_WEIGHT = 4000000
@@ -676,7 +685,7 @@ class CTransaction:
 
 class CBlockHeader:
     __slots__ = ("hash", "hashMerkleRoot", "hashPrevBlock", "nBits", "nNonce",
-                 "nTime", "nVersion", "sha256")
+                 "nTime", "nVersion", "sha256", "argon2id")
 
     def __init__(self, header=None):
         if header is None:
@@ -690,6 +699,7 @@ class CBlockHeader:
             self.nNonce = header.nNonce
             self.sha256 = header.sha256
             self.hash = header.hash
+            self.argon2id = header.argon2id
             self.calc_sha256()
 
     def set_null(self):
@@ -701,6 +711,7 @@ class CBlockHeader:
         self.nNonce = 0
         self.sha256 = None
         self.hash = None
+        self.argon2id = None
 
     def deserialize(self, f):
         self.nVersion = struct.unpack("<i", f.read(4))[0]
@@ -711,6 +722,7 @@ class CBlockHeader:
         self.nNonce = struct.unpack("<I", f.read(4))[0]
         self.sha256 = None
         self.hash = None
+        self.argon2id = None
 
     def serialize(self):
         r = b""
@@ -733,9 +745,11 @@ class CBlockHeader:
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = hash256(r)[::-1].hex()
+            self.argon2id = uint256_from_str(GetArgon2idHash(GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096), r, 32768)).digest()[::-1].hex()
 
     def rehash(self):
         self.sha256 = None
+        self.argon2id = None
         self.calc_sha256()
         return self.sha256
 
@@ -799,7 +813,7 @@ class CBlock(CBlockHeader):
     def is_valid(self):
         self.calc_sha256()
         target = uint256_from_compact(self.nBits)
-        if self.sha256 > target:
+        if self.argon2id > target:
             return False
         for tx in self.vtx:
             if not tx.is_valid():
@@ -811,7 +825,7 @@ class CBlock(CBlockHeader):
     def solve(self):
         self.rehash()
         target = uint256_from_compact(self.nBits)
-        while self.sha256 > target:
+        while self.argon2id > target:
             self.nNonce += 1
             self.rehash()
 
