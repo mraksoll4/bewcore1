@@ -751,7 +751,7 @@ class CBlockHeader:
             hash2 = GetArgon2idHash(hash1, r, 32768)
             
             # Преобразование хеша в uint256 и получение его шестнадцатеричного представления
-            self.argon2id = uint256_from_str(hash2).digest()[::-1].hex()
+            self.argon2id = uint256_from_str(hash2[::-1]).hex()
             print(self.argon2id)
 
     def rehash(self):
