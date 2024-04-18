@@ -167,7 +167,7 @@ class AssumeutxoTest(BitcoinTestFramework):
 
         self.log.info(f"Creating a UTXO snapshot at height {SNAPSHOT_BASE_HEIGHT}")
         dump_output = n0.dumptxoutset('utxos.dat')
-        print(dump_output)
+        #print(dump_output)
 
         assert_equal(
             dump_output['txoutset_hash'],
