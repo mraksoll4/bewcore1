@@ -749,7 +749,7 @@ class CBlockHeader:
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
             hash2 = GetArgon2idHash(hash1, r, 32768)
-            hash3 = hash2
+            hash3 = hash2[::-1]
             self.argon2id = uint256_from_str(hash3)
             print(self.argon2id)
 
