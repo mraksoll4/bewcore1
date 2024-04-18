@@ -750,7 +750,7 @@ class CBlockHeader:
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = hash256(r)[::-1].hex()
             # Print SHA-256 hash
-            print("SHA-256 hash:", self.hash)
+            #print("SHA-256 hash:", self.hash)
             
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
@@ -758,12 +758,12 @@ class CBlockHeader:
             hash3 = hash2
             self.argon2id = uint256_from_str(hash3)
             # Print Argon2id hash
-            print("Argon2id hash:", hash3.hex())
+            #print("Argon2id hash:", hash3.hex())
             
             yhash = bewcore_yespower.getPoWHash(r)
             self.yespower = uint256_from_str(yhash)
             # Print YesPower hash
-            print("YesPower hash:", yhash.hex())
+            #print("YesPower hash:", yhash.hex())
             
 
     def rehash(self):
