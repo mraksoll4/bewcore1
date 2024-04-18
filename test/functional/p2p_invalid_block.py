@@ -107,7 +107,7 @@ class InvalidBlockRequestTest(BitcoinTestFramework):
         # It should be accepted even though it has the same hash as the mutated one.
 
         self.log.info("Test accepting original block after rejecting its mutated version.")
-        peer.send_blocks_and_test([block2_orig], node, success=True, timeout=100000)
+        peer.send_blocks_and_test([block2_orig], node, success=True, timeout=5)
 
         # Update tip info
         height += 1

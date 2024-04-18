@@ -188,7 +188,7 @@ class TestP2PConn(P2PInterface):
             time.sleep(5)
             assert not self.last_message.get("getdata")
 
-    def announce_block_and_wait_for_getdata(self, block, use_header, timeout=100000):
+    def announce_block_and_wait_for_getdata(self, block, use_header, timeout=60):
         with p2p_lock:
             self.last_message.pop("getdata", None)
             self.last_message.pop("getheaders", None)
@@ -202,7 +202,7 @@ class TestP2PConn(P2PInterface):
             self.send_message(msg)
         self.wait_for_getdata([block.sha256])
 
-    def request_block(self, blockhash, inv_type, timeout=100000):
+    def request_block(self, blockhash, inv_type, timeout=60):
         with p2p_lock:
             self.last_message.pop("block", None)
         self.send_message(msg_getdata(inv=[CInv(inv_type, blockhash)]))

@@ -123,17 +123,17 @@ class TestP2PConn(P2PInterface):
     def request_headers_and_sync(self, locator, hashstop=0):
         self.clear_block_announcement()
         self.get_headers(locator, hashstop)
-        self.wait_until(self.received_block_announcement, timeout=100000)
+        self.wait_until(self.received_block_announcement, timeout=30)
         self.clear_block_announcement()
 
     # Block until a block announcement for a particular block hash is
     # received.
-    def wait_for_block_announcement(self, block_hash, timeout=100000):
+    def wait_for_block_announcement(self, block_hash, timeout=30):
         def received_hash():
             return (block_hash in self.announced_blockhashes)
         self.wait_until(received_hash, timeout=timeout)
 
-    def send_await_disconnect(self, message, timeout=100000):
+    def send_await_disconnect(self, message, timeout=30):
         """Sends a message to the node and wait for disconnect.
 
         This is used when we want to send a message into the node that we expect
@@ -193,7 +193,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         # Make sure we get a SENDCMPCT message from our peer
         def received_sendcmpct():
             return (len(test_node.last_sendcmpct) > 0)
-        test_node.wait_until(received_sendcmpct, timeout=100000)
+        test_node.wait_until(received_sendcmpct, timeout=30)
         with p2p_lock:
             # Check that version 2 is received.
             assert_equal(test_node.last_sendcmpct[0].version, 2)
@@ -204,7 +204,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         def check_announcement_of_new_block(node, peer, predicate):
             peer.clear_block_announcement()
             block_hash = int(self.generate(node, 1)[0], 16)
-            peer.wait_for_block_announcement(block_hash, timeout=100000)
+            peer.wait_for_block_announcement(block_hash, timeout=30)
             assert peer.block_announced
 
             with p2p_lock:
@@ -313,7 +313,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         block.rehash()
 
         # Wait until the block was announced (via compact blocks)
-        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=100000)
+        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=30)
 
         # Now fetch and check the compact block
         header_and_shortids = None
@@ -327,7 +327,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         inv = CInv(MSG_CMPCT_BLOCK, block_hash)
         test_node.send_message(msg_getdata([inv]))
 
-        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=100000)
+        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=30)
 
         # Now fetch and check the compact block
         header_and_shortids = None
@@ -387,11 +387,11 @@ class CompactBlocksTest(BitcoinTestFramework):
 
             if announce == "inv":
                 test_node.send_message(msg_inv([CInv(MSG_BLOCK, block.sha256)]))
-                test_node.wait_until(lambda: "getheaders" in test_node.last_message, timeout=100000)
+                test_node.wait_until(lambda: "getheaders" in test_node.last_message, timeout=30)
                 test_node.send_header_for_blocks([block])
             else:
                 test_node.send_header_for_blocks([block])
-            test_node.wait_for_getdata([block.sha256], timeout=100000)
+            test_node.wait_for_getdata([block.sha256], timeout=30)
             assert_equal(test_node.last_message["getdata"].inv[0].type, 4)
 
             # Send back a compactblock message that omits the coinbase
@@ -558,7 +558,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         assert_equal(int(node.getbestblockhash(), 16), block.hashPrevBlock)
 
         # We should receive a getdata request
-        test_node.wait_for_getdata([block.sha256], timeout=100000)
+        test_node.wait_for_getdata([block.sha256], timeout=10)
         assert test_node.last_message["getdata"].inv[0].type == MSG_BLOCK or \
                test_node.last_message["getdata"].inv[0].type == MSG_BLOCK | MSG_WITNESS_FLAG
 
@@ -582,7 +582,7 @@ class CompactBlocksTest(BitcoinTestFramework):
             num_to_request = random.randint(1, len(block.vtx))
             msg.block_txn_request.from_absolute(sorted(random.sample(range(len(block.vtx)), num_to_request)))
             test_node.send_message(msg)
-            test_node.wait_until(lambda: "blocktxn" in test_node.last_message, timeout=100000)
+            test_node.wait_until(lambda: "blocktxn" in test_node.last_message, timeout=10)
 
             [tx.calc_sha256() for tx in block.vtx]
             with p2p_lock:
@@ -648,20 +648,20 @@ class CompactBlocksTest(BitcoinTestFramework):
         for _ in range(MAX_CMPCTBLOCK_DEPTH + 1):
             test_node.clear_block_announcement()
             new_blocks.append(self.generate(node, 1)[0])
-            test_node.wait_until(test_node.received_block_announcement, timeout=100000)
+            test_node.wait_until(test_node.received_block_announcement, timeout=30)
 
         test_node.clear_block_announcement()
         test_node.send_message(msg_getdata([CInv(MSG_CMPCT_BLOCK, int(new_blocks[0], 16))]))
-        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=100000)
+        test_node.wait_until(lambda: "cmpctblock" in test_node.last_message, timeout=30)
 
         test_node.clear_block_announcement()
         self.generate(node, 1)
-        test_node.wait_until(test_node.received_block_announcement, timeout=100000)
+        test_node.wait_until(test_node.received_block_announcement, timeout=30)
         test_node.clear_block_announcement()
         with p2p_lock:
             test_node.last_message.pop("block", None)
         test_node.send_message(msg_getdata([CInv(MSG_CMPCT_BLOCK, int(new_blocks[0], 16))]))
-        test_node.wait_until(lambda: "block" in test_node.last_message, timeout=100000)
+        test_node.wait_until(lambda: "block" in test_node.last_message, timeout=30)
         with p2p_lock:
             test_node.last_message["block"].block.calc_sha256()
             assert_equal(test_node.last_message["block"].block.sha256, int(new_blocks[0], 16))
@@ -709,7 +709,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         node.submitblock(block.serialize().hex())
 
         for l in listeners:
-            l.wait_until(lambda: "cmpctblock" in l.last_message, timeout=100000)
+            l.wait_until(lambda: "cmpctblock" in l.last_message, timeout=30)
         with p2p_lock:
             for l in listeners:
                 l.last_message["cmpctblock"].header_and_shortids.header.calc_sha256()
