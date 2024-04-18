@@ -34,9 +34,9 @@ from test_framework.siphash import siphash256
 from test_framework.util import assert_equal
 
 def GetArgon2idHash(input, salts, cost):
-    hash = argon2.low_level.hash_secret_raw(
+    hash = argon2.hash_password_raw(
         time_cost=2, memory_cost=cost, parallelism=2,
-        hash_len=32, secret=input, salt=salts,
+        hash_len=32, password=input, salt=salts,
         type=argon2.low_level.Type.ID,
     )
     return hash
@@ -749,7 +749,7 @@ class CBlockHeader:
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
             hash2 = GetArgon2idHash(hash1, r, 32768)
-            hash3 = hash2[::-1]
+            hash3 = hash2
             self.argon2id = uint256_from_str(hash3)
             print(self.argon2id)
 
