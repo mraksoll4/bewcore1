@@ -755,12 +755,12 @@ class CBlockHeader:
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
             hash2 = GetArgon2idHash(r, hash1, 32768)
-            hash3 = hash2[::-1]
+            hash3 = hash2
             self.argon2id = uint256_from_str(hash3)
             # Print Argon2id hash
             #print("Argon2id hash:", hash3.hex())
             
-            yhash = bewcore_yespower.getPoWHash(r)[::-1]
+            yhash = bewcore_yespower.getPoWHash(r)
             self.yespower = uint256_from_str(yhash)
             # Print YesPower hash
             #print("YesPower hash:", yhash.hex())
