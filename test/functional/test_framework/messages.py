@@ -752,7 +752,7 @@ class CBlockHeader:
             
             # Преобразование хеша в uint256 и получение его шестнадцатеричного представления
             self.argon2id = hash2.hex()
-            print(argon2id)
+            print(self.argon2id)
 
     def rehash(self):
         self.sha256 = None
