@@ -29,15 +29,15 @@ import struct
 import time
 import unittest
 
-import import bewcore_yespower
+import bewcore_yespower
 import argon2
 from test_framework.siphash import siphash256
 from test_framework.util import assert_equal
 
 def GetArgon2idHash(input, salts, cost):
-    hash = argon2.hash_password_raw(
+    hash = argon2.low_level.hash_secret_raw(
         time_cost=2, memory_cost=cost, parallelism=2,
-        hash_len=32, password=input, salt=salts,
+        hash_len=32, secret=input, salt=salts,
         type=argon2.low_level.Type.ID,
     )
     return hash
