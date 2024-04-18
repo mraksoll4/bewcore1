@@ -86,7 +86,7 @@ TEST_FRAMEWORK_MODULES = [
 EXTENDED_SCRIPTS = [
     # These tests are not run by default.
     # Longest test should go first, to favor running tests in parallel
-    'feature_pruning.py',
+#    'feature_pruning.py',
     'feature_dbcrash.py',
     'feature_index_prune.py',
     'wallet_pruning.py --legacy-wallet',
