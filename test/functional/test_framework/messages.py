@@ -834,7 +834,7 @@ class CBlock(CBlockHeader):
         self.calc_sha256()
         target = uint256_from_compact(self.nBits)
         while self.argon2id > target and self.yespower > target:
-            return True
+            return False
         for tx in self.vtx:
             if not tx.is_valid():
                 return False
