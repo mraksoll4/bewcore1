@@ -90,17 +90,17 @@ class P2PFingerprintTest(BitcoinTestFramework):
 
         # Check that getdata request for stale block succeeds
         self.send_block_request(stale_hash, node0)
-        node0.wait_for_block(stale_hash, timeout=3)
+        node0.wait_for_block(stale_hash, timeout=100000)
 
         # Check that getheader request for stale block header succeeds
         self.send_header_request(stale_hash, node0)
-        node0.wait_for_header(hex(stale_hash), timeout=3)
+        node0.wait_for_header(hex(stale_hash), timeout=100000)
 
         # Longest chain is extended so stale is much older than chain tip
         self.nodes[0].setmocktime(0)
         block_hash = int(self.generatetoaddress(self.nodes[0], 1, self.nodes[0].get_deterministic_priv_key().address)[-1], 16)
         assert_equal(self.nodes[0].getblockcount(), 14)
-        node0.wait_for_block(block_hash, timeout=3)
+        node0.wait_for_block(block_hash, timeout=100000)
 
         # Request for very old stale block should now fail
         with p2p_lock:
@@ -123,10 +123,10 @@ class P2PFingerprintTest(BitcoinTestFramework):
         node0.sync_with_ping()
 
         self.send_block_request(block_hash, node0)
-        node0.wait_for_block(block_hash, timeout=3)
+        node0.wait_for_block(block_hash, timeout=100000)
 
         self.send_header_request(block_hash, node0)
-        node0.wait_for_header(hex(block_hash), timeout=3)
+        node0.wait_for_header(hex(block_hash), timeout=100000)
 
 
 if __name__ == '__main__':

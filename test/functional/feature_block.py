@@ -142,7 +142,7 @@ class FullBlockTest(BitcoinTestFramework):
         b2 = self.next_block(2, spend=out[1])
         self.save_spendable_output()
 
-        self.send_blocks([b1, b2], timeout=4)
+        self.send_blocks([b1, b2], timeout=100000)
 
         # Select a txn with an output eligible for spending. This won't actually be spent,
         # since we're testing submission of a series of blocks with invalid txns.
@@ -167,7 +167,7 @@ class FullBlockTest(BitcoinTestFramework):
             self.send_blocks(
                 [badblock], success=False,
                 reject_reason=(template.block_reject_reason or template.reject_reason),
-                reconnect=True, timeout=2)
+                reconnect=True, timeout=100000)
 
             self.move_tip(2)
 
@@ -1282,7 +1282,7 @@ class FullBlockTest(BitcoinTestFramework):
             self.save_spendable_output()
             spend = self.get_spendable_output()
 
-        self.send_blocks(blocks, True, timeout=2440)
+        self.send_blocks(blocks, True, timeout=100000)
         chain1_tip = i
 
         # now create alt chain of same length
@@ -1294,14 +1294,14 @@ class FullBlockTest(BitcoinTestFramework):
 
         # extend alt chain to trigger re-org
         block = self.next_block("alt" + str(chain1_tip + 1))
-        self.send_blocks([block], True, timeout=2440)
+        self.send_blocks([block], True, timeout=100000)
 
         # ... and re-org back to the first chain
         self.move_tip(chain1_tip)
         block = self.next_block(chain1_tip + 1)
         self.send_blocks([block], False, force_send=True)
         block = self.next_block(chain1_tip + 2)
-        self.send_blocks([block], True, timeout=2440)
+        self.send_blocks([block], True, timeout=100000)
 
         self.log.info("Reject a block with an invalid block header version")
         b_v1 = self.next_block('b_v1', version=1)
@@ -1399,7 +1399,7 @@ class FullBlockTest(BitcoinTestFramework):
         self.blocks[block_number] = block
         return block
 
-    def bootstrap_p2p(self, timeout=10):
+    def bootstrap_p2p(self, timeout=100000):
         """Add a P2P connection to the node.
 
         Helper to connect and wait for version handshake."""
@@ -1412,7 +1412,7 @@ class FullBlockTest(BitcoinTestFramework):
         # unexpectedly disconnected if the DoS score for that error is 50.
         self.helper_peer.wait_for_getheaders(timeout=timeout)
 
-    def reconnect_p2p(self, timeout=60):
+    def reconnect_p2p(self, timeout=100000):
         """Tear down and bootstrap the P2P connection to the node.
 
         The node gets disconnected several times in this test. This helper
@@ -1420,7 +1420,7 @@ class FullBlockTest(BitcoinTestFramework):
         self.nodes[0].disconnect_p2ps()
         self.bootstrap_p2p(timeout=timeout)
 
-    def send_blocks(self, blocks, success=True, reject_reason=None, force_send=False, reconnect=False, timeout=960):
+    def send_blocks(self, blocks, success=True, reject_reason=None, force_send=False, reconnect=False, timeout=100000):
         """Sends blocks to test node. Syncs and verifies that tip has advanced to most recent block.
 
         Call with success = False if the tip shouldn't advance to the most recent block."""

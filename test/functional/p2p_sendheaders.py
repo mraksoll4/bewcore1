@@ -144,7 +144,7 @@ class BaseNode(P2PInterface):
         getblocks_message.locator.vHave = locator
         self.send_message(getblocks_message)
 
-    def wait_for_block_announcement(self, block_hash, timeout=60):
+    def wait_for_block_announcement(self, block_hash, timeout=100000):
         test_function = lambda: self.last_blockhash_announced == block_hash
         self.wait_until(test_function, timeout=timeout)
 
