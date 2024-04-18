@@ -745,13 +745,13 @@ class CBlockHeader:
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = hash256(r)[::-1].hex()
-            print(self.hash)
+            print(hash)
             # Получение хеша Argon2id дважды
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
             hash2 = GetArgon2idHash(hash1, r, 32768)
             
             # Преобразование хеша в uint256 и получение его шестнадцатеричного представления
-            self.argon2id = uint256_from_str(hash2[::-1]).hex()
+            self.argon2id = hash2[::-1]).hex()
             print(self.argon2id)
 
     def rehash(self):
