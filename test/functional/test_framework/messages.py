@@ -750,7 +750,7 @@ class CBlockHeader:
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = hash256(r)[::-1].hex()
             # Print SHA-256 hash
-            print("SHA-256 hash:", self.sha256.hex())
+            print("SHA-256 hash:", self.hash)
             
             # get argon2id pow hash
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
