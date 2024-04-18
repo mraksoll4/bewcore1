@@ -748,7 +748,7 @@ class CBlockHeader:
             print(hash)
             # Получение хеша Argon2id дважды
             hash1 = GetArgon2idHash(r, hashlib.sha512(hashlib.sha512(r).digest()).digest(), 4096)
-            hash2 = GetArgon2idHash(hash1, r, 32768).digest[::-1]
+            hash2 = GetArgon2idHash(hash1, r, 32768)[::-1]
             
             # Преобразование хеша в uint256 и получение его шестнадцатеричного представления
             self.argon2id = hash2.hex()
